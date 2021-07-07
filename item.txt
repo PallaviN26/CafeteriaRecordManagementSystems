@@ -1,0 +1,4 @@
+i001|Idli|BF|10|30|#
+i002|Poori|BF|5|40|#
+003|Vada|BF|10|15|#
+i004|Noodles|Chinese|5|60|#

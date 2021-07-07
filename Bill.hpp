@@ -1,3 +1,7 @@
+#include<string>
+#ifndef ITEM_H
+#define ITEM_H
+using namespace std;
 class Bill{
 
     public :
@@ -7,3 +11,4 @@ class Bill{
       int   method;
 
 };
+#endif
