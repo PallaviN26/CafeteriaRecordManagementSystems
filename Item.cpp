@@ -84,23 +84,25 @@ void item::unpack(){
     sfile.getline(buffer,10,'#');
 }
 void item::deleteItem(){
-    // display();
+    //display();
     opener(sfile,fileName,ios::in);
     if(!sfile){
         return;
     }
     char id[10];
+    cin.ignore();
     cout<<"Id of item to search";
-    cin>>id;
+    gets(id);
     while (!sfile.eof())
     {
         unpack();
+        cout<<"id:"<<id<<"\titemid"<<itemId<<"\tcomparision"<<strcmp(id,itemId)<<endl;
         if(strcmp(id,itemId)==0){
             cout<<"Item Id:"<<itemId<<"\nItem Name"<<itemName<<"\nItem Category"<<itemCategory<<"\nItem Stocks"<<itemStocks<<"\nItem price"<<pricePerUnit<<endl;
             return;
         }
     }
-    cout<<"Item not found!";
+    cout<<"Item not found!\n";
 }
 
 void item::itemAccessing(){
@@ -113,18 +115,18 @@ void item::itemAccessing(){
     cin>>n;
     switch (n)
     {
-    case 1:
-      read();
-      break;
-    case 2:
-      display();
-      break;
-    case 3:
-        deleteItem();//search()
-        break;
-    default:
-      return;
+        case 1:
+            read();
+            break;
+        case 2:
+            display();
+            break;
+        case 3:
+            deleteItem();//search()
+            break;
+        default:
+            return;
     }
-    
+    sfile.close();
   }
 }
