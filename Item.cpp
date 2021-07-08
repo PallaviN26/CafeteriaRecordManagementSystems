@@ -67,7 +67,7 @@ void item::display(){
         unpack();
         if(sfile.eof())
             break;
-        else{
+        else if(atoi(itemStocks)>0){
             cout<<setw(10)<<itemId<<setw(25)<<itemName<<setw(25)<<itemCategory<<setw(10)<<itemStocks<<setw(10)<<pricePerUnit<<endl;
         }
         // i--;
@@ -111,7 +111,7 @@ void item::accessing(){
   int n;
   while (1)
   {
-    cout<<"1-read\t2-display\t3-search\t4-exit\nEnter choice:";
+    cout<<"1-Add an item\t2-Current Menu\t3-Search for a food by item id\t4-exit\nEnter choice:";
     cin>>n;
     switch (n)
     {
