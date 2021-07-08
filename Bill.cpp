@@ -43,9 +43,7 @@ void item::pack(){
     strcat(buffer,"|");
     strcat(buffer,totalAmount);
     strcat(buffer,"|");
-    strcat(buffer,itemStocks);
-    strcat(buffer,"|");
-    strcat(buffer,pricePerUnit);
+    strcat(buffer,method);
     strcat(buffer,"|#");
     sfile<<buffer<<"\n";
 }
@@ -57,13 +55,13 @@ void item::display(){
     }
     char buffer[100];
     cout<<setiosflags(ios::left);
-    cout<<setw(10)<<"Item Id"<<setw(25)<<"Item Name"<<setw(25)<<"Item Category"<<setw(10)<<"Stock"<<setw(10)<<"Price"<<endl;
+    cout<<setw(10)<<"Order Id"<<setw(25)<<"Total Quantity"<<setw(25)<<"Item Category"<<setw(10)<<"Total amount "<<setw(10)<<"Mode of Payment"<<endl;
     while(1){
         unpack();
         if(sfile.eof())
             break;
         else{
-            cout<<setw(10)<<itemId<<setw(25)<<itemName<<setw(25)<<itemCategory<<setw(10)<<itemStocks<<setw(10)<<pricePerUnit<<endl;
+            cout<<setw(10)<<orderId<<setw(25)<<totalQuantity<<setw(25)<<totalAmount<<setw(10)<<itemStocks<<setw(10)<<method<<endl;
         }
         // i--;
     }
@@ -71,11 +69,10 @@ void item::display(){
 
 void item::unpack(){
     char buffer[100];
-    sfile.getline(itemId,10,'|');
-    sfile.getline(itemName,25, '|' );
-    sfile.getline(itemCategory,25,'|');
-    sfile.getline(itemStocks,10,'|');
-    sfile.getline(pricePerUnit,10,'|');
+    sfile.getline(orderId,10,'|');
+    sfile.getline(totalQuantity,25, '|' );
+    sfile.getline(totalAmount,25,'|');
+    sfile.getline(method,1,'|');
     sfile.getline(buffer,100,'#\n');
 }
 void item::removeRecord(){
