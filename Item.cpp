@@ -51,8 +51,8 @@ void item::pack(){
     strcat(buffer,itemStocks);
     strcat(buffer,"|");
     strcat(buffer,pricePerUnit);
-    strcat(buffer,"|");
-    sfile<<buffer<<"#\n";
+    strcat(buffer,"#");
+    sfile<<buffer<<"\n";
 }
 void item::display(){
     opener(sfile,fileName,ios::in);
@@ -81,7 +81,7 @@ void item::unpack(){
     sfile.getline(itemCategory,25,'|');
     sfile.getline(itemStocks,10,'|');
     sfile.getline(pricePerUnit,10,'|');
-    sfile.getline(buffer,10,'#');
+    sfile.getline(buffer,100,'\n');
 }
 void item::deleteItem(){
     //display();
@@ -91,14 +91,14 @@ void item::deleteItem(){
     }
     char id[10];
     cin.ignore();
-    cout<<"Id of item to search";
+    cout<<"Id of item to search:";
     gets(id);
     while (!sfile.eof())
     {
         unpack();
-        cout<<"id:"<<id<<"\titemid"<<itemId<<"\tcomparision"<<strcmp(id,itemId)<<endl;
+        // cout<<"id:"<<id<<"\titemid"<<itemId<<"\tcomparision"<<strcmp(id,itemId)<<endl;
         if(strcmp(id,itemId)==0){
-            cout<<"Item Id:"<<itemId<<"\nItem Name"<<itemName<<"\nItem Category"<<itemCategory<<"\nItem Stocks"<<itemStocks<<"\nItem price"<<pricePerUnit<<endl;
+            cout<<"Item Id:"<<itemId<<"\nItem Name: "<<itemName<<"\nItem Category: "<<itemCategory<<"\nItem Stocks: "<<itemStocks<<"\nItem price: "<<pricePerUnit<<endl;
             return;
         }
     }
