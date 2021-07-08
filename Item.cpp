@@ -51,7 +51,7 @@ void item::pack(){
     strcat(buffer,itemStocks);
     strcat(buffer,"|");
     strcat(buffer,pricePerUnit);
-    strcat(buffer,"#");
+    strcat(buffer,"|#");
     sfile<<buffer<<"\n";
 }
 void item::display(){
@@ -81,7 +81,7 @@ void item::unpack(){
     sfile.getline(itemCategory,25,'|');
     sfile.getline(itemStocks,10,'|');
     sfile.getline(pricePerUnit,10,'|');
-    sfile.getline(buffer,100,'\n');
+    sfile.getline(buffer,100,'#\n');
 }
 void item::deleteItem(){
     //display();
