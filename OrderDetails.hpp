@@ -1,3 +1,7 @@
+#include<string>
+#ifndef ITEM_H
+#define ITEM_H
+using namespace std;
 class OrderDetails{
     
     public:
@@ -6,3 +10,4 @@ class OrderDetails{
       int   quantity;
       float  amount;
 };
+#endif
