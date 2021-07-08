@@ -1,9 +1,10 @@
 #include<string>
+#include "base.hpp"
 #ifndef ITEM_H
 #define ITEM_H
 using namespace std;
 // fstream ifile;
-class item{
+class item : public base{
     public :
        char  itemId[10];
        char itemName[25];
@@ -12,13 +13,13 @@ class item{
        char  pricePerUnit[10];
     public:
        void opener(fstream &ifile,char *fileName,ios_base::openmode mode);
-       void read();
-       void pack();
-       void unpack();
-       void display();
-       void search();
-       void deleteItem();
-       void modifyItem();
-       void itemAccessing();
+       void read() override;
+       void pack() override;
+       void unpack() override;
+       void display() override;
+       void search() override;
+       void removeRecord() override;
+       void modify() override;
+       void accessing() override;
 };
 #endif

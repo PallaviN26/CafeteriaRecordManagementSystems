@@ -12,22 +12,23 @@ int main()
 {
   int choice;
   while(1){
-    cout<<"1.Customer Service\t2.Order History\t3.Update Food List\t4.Orders To Prepare\n";
+    cout<<"1.Customer Service\t2.Order History\t3.Update Food List\t4.Orders To Prepare\t5.Exit\n";
     cin>>choice;
-    switch (choice)
+    item itemobj;
+    switch(choice)
     {
-    case 1:
-      item itemobj;
-      itemobj.itemAccessing();
-      /* code */
-      break;
-    case 2:
-    case 3:
-    case 4:
-      cout<<"Not yet done\n";
-      break;
-    default:
-      exit(0);
+    case 1:{
+           itemobj.accessing();
+          
+    }  break;
+    case 2:{cout<<"Hello";
+           
+            }  break;
+    case 3:cout<<"Byee";
+            break;
+    case 4:cout<<"Tata";
+           break;
+    default:  return 0;
     }
     myFile.close();
   } 

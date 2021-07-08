@@ -83,7 +83,7 @@ void item::unpack(){
     sfile.getline(pricePerUnit,10,'|');
     sfile.getline(buffer,100,'#\n');
 }
-void item::deleteItem(){
+void item::removeRecord(){
     //display();
     opener(sfile,fileName,ios::in);
     if(!sfile){
@@ -105,7 +105,7 @@ void item::deleteItem(){
     cout<<"Item not found!\n";
 }
 
-void item::itemAccessing(){
+void item::accessing(){
     
 //   char fileName[25]="item.txt";
   int n;
@@ -122,7 +122,7 @@ void item::itemAccessing(){
             display();
             break;
         case 3:
-            deleteItem();//search()
+            removeRecord();//search()
             break;
         default:
             return;
