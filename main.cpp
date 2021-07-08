@@ -29,6 +29,7 @@ int main()
     default:
       exit(0);
     }
+    myFile.close();
   } 
   return 0;
 }
