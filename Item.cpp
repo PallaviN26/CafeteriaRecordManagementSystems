@@ -130,3 +130,18 @@ void item::accessing(){
     sfile.close();
   }
 }
+int item::getQuantity(char* id){
+    opener(sfile,fileName,ios::in);
+    if(!sfile){
+        return;
+    }
+    cin.ignore();
+    while (!sfile.eof())
+    {
+        unpack();
+        if(strcmp(id,itemId)==0){
+           return itemStocks;
+        }
+    }
+    return 0;
+}

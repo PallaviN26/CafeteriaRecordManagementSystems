@@ -1,21 +1,20 @@
 #include<string>
-#include"base.hpp"
 #ifndef ITEM_H
 #define ITEM_H
 using namespace std;
-class chefs :public base{
+class chefs {
    public :
    int  itemId;
    char itemName[50];
    int quantity;
    public:
-       void read() override;
-       void pack() override;
-       void unpack() override;
-       void display() override;
-       void search() override;
-       void removeRecord() override;
-       void modify() override;
-       void accessing() override;
+       void read() ;
+       void pack() ;
+       void unpack() ;
+       void display() ;
+       void search() ;
+       void removeRecord() ;
+       void modify();
+       void accessing();
 };
 #endif
