@@ -20,5 +20,6 @@ public:
   void modify() ;
   void accessing();
   int generateOrderId();
+  void validate();
 };
 #endif
