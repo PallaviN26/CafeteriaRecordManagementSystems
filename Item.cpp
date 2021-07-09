@@ -5,6 +5,7 @@
 #include<cstring>
 #include<fstream>
 #include<stdlib.h>
+#include<typeinfo>
 
 #include "Item.hpp"
 #define fileName "item.txt"
@@ -78,7 +79,7 @@ void item::unpack(){
     sfile.getline(itemCategory,25,'|');
     sfile.getline(stackBuf,10,'|');
     sfile.getline(priceBuf,10,'|');
-     itemStocks=atoi(stackBuf);
+    itemStocks=atoi(stackBuf);
     pricePerUnit=atof(priceBuf);
     sfile.getline(buffer,100,'#\n');
    
@@ -133,7 +134,7 @@ void item::accessing(){
 int item::getQuantity(char* id){
     opener(sfile,fileName,ios::in);
     if(!sfile){
-        return;
+        return 0;
     }
     cin.ignore();
     while (!sfile.eof())

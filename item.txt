@@ -4,3 +4,4 @@ i003|Noodles|Chinese|10|70|#
 i010|Masala Dosa|Breakfast|45|50|#
 i005|Fried Rice|Chinese|0|60|#
 i006|Onion Dosa |BF|10|50|#
+i004|Coffee|Drink|50|15|#
