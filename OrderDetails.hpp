@@ -1,10 +1,9 @@
 #include <string>
-#include "base.hpp"
-#ifndef ITEM_H
+#ifndef ORDERDETAILS_H
 #define ITEM_H
+#define ORDERDETAILS_H
 using namespace std;
-class OrderDetails : public base{
-
+class orderDetails {
 public:
   int orderId;
   int itemId;
@@ -12,13 +11,14 @@ public:
   float amount;
 
 public:
-  void read() override;
-  void pack() override;
-  void unpack() override;
-  void display() override;
-  void search() override;
-  void removeRecord() override;
-  void modify() override;
-  void accessing() override;
+  void read();
+  void pack() ;
+  void unpack() ;
+  void display() ;
+  void search();
+  void removeRecord() ;
+  void modify() ;
+  void accessing();
+  int generateOrderId();
 };
 #endif
