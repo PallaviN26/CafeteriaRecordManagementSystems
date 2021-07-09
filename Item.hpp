@@ -20,5 +20,6 @@ class item {
        void removeRecord() ;
        void modify() ;
        void accessing();
+       int getQuantity(char* id);
 };
 #endif
