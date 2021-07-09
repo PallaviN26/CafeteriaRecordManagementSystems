@@ -2,3 +2,5 @@ i001|Idli|BF|10|40|#
 i002|Dosa|BF|10|50|#
 i003|Noodles|Chinese|10|70|#
 i010|Masala Dosa|Breakfast|45|50|#
+i005|Fried Rice|Chinese|0|60|#
+i006|Onion Dosa |BF|10|50|#
