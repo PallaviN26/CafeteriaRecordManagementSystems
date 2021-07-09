@@ -6,12 +6,8 @@
 #include "OrderDetails.hpp"
 #include "Item.hpp"
 using namespace std;
-<<<<<<< HEAD
-#define ITEM_H
-=======
 
 item itemobj;
->>>>>>> 08251cbcb87d8d514ea90c6ea20f210e5e522ae4
 
 int  orderDetails ::  generateOrderId(){
     srand(time(0));
@@ -33,11 +29,11 @@ void orderDetails :: read(){
 }
 int orderDetails :: validate(int itemId , int quantity){
 
-    if(1)
-        return 1;
+    if(itemobj.getQuantity(itemId) < quantity )
+        return itemobj.getQuantity(itemId);
     else
         return 0;   
 }
 void orderDetails :: pack(){
-    
+
 }
