@@ -7,6 +7,7 @@
 #include "Item.hpp"
 using namespace std;
 #define ITEM_H
+
 int  orderDetails ::  generateOrderId(){
     srand(time(0));
     return rand() % 900;
@@ -16,7 +17,22 @@ void orderDetails :: read(){
     cin>>itemId;
     cout<<"Enter the quantity";
     cin>>quantity; 
+    int availQuantity = validate(itemId,quantity);
+    if(availQuantity != 0 )
+    {
+        cout<<"The available quantity is only "<< availQuantity <<endl;
+        cout<<"Sorry cant make the order !!! \n";
+        return;
+    }
+    pack();
 }
-void orderDetails :: validate(int itemId){
-        
+int orderDetails :: validate(int itemId , int quantity){
+
+    if(1)
+        return 1;
+    else
+        return 0;   
+}
+void orderDetails :: pack(){
+    
 }
