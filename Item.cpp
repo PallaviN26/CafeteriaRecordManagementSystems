@@ -29,7 +29,7 @@ void item::read(){
     cout<<"Enter details:\n";
     cin.ignore();
     cout<<"Enter item id: ";
-    gets(itemId);
+    cin>>itemId;
     cout<<"Enter food item name: ";
     gets( itemName);
     cout<<"Enter item category: ";
@@ -42,14 +42,7 @@ void item::read(){
 }
 
 void item::pack(){
-    char buffer[100];
-    strcpy(buffer,itemId); 
-    strcat(buffer,"|");
-    strcat(buffer,itemName);
-    strcat(buffer,"|");
-    strcat(buffer,itemCategory);
-    strcat(buffer,"|");
-    sfile<<buffer<<itemStocks<<"|"<<pricePerUnit<<"|#\n";
+    sfile<<itemId<<"|"<<itemName<<"|"<<itemCategory<<"|"<<itemStocks<<"|"<<pricePerUnit<<"|#\n";
 }
 void item::display(){
     opener(sfile,fileName,ios::in);
@@ -73,12 +66,13 @@ void item::display(){
 
 void item::unpack(){
     char buffer[100];
-    char stackBuf[10],priceBuf[10];
-    sfile.getline(itemId,10,'|');
+    char stackBuf[10],priceBuf[10],idBuf[10];
+    sfile.getline(idBuf,10,'|');
     sfile.getline(itemName,25, '|' );
     sfile.getline(itemCategory,25,'|');
     sfile.getline(stackBuf,10,'|');
     sfile.getline(priceBuf,10,'|');
+    itemId=atoi(idBuf);
     itemStocks=atoi(stackBuf);
     pricePerUnit=atof(priceBuf);
     sfile.getline(buffer,100,'#\n');
@@ -90,15 +84,15 @@ void item::removeRecord(){
     if(!sfile){
         return;
     }
-    char id[10];
+    int id;
     cin.ignore();
     cout<<"Id of item to search:";
-    gets(id);
+    cin>>(id);
     while (!sfile.eof())
     {
         unpack();
         // cout<<"id:"<<id<<"\titemid"<<itemId<<"\tcomparision"<<strcmp(id,itemId)<<endl;
-        if(strcmp(id,itemId)==0){
+        if((id==itemId)){
             cout<<"Item Id:"<<itemId<<"\nItem Name: "<<itemName<<"\nItem Category: "<<itemCategory<<"\nItem Stocks: "<<itemStocks<<"\nItem price: "<<pricePerUnit<<endl;
             return;
         }
@@ -131,7 +125,7 @@ void item::accessing(){
     sfile.close();
   }
 }
-int item::getQuantity(char* id){
+int item::getQuantity(int id){
     opener(sfile,fileName,ios::in);
     if(!sfile){
         return 0;
@@ -140,7 +134,7 @@ int item::getQuantity(char* id){
     while (!sfile.eof())
     {
         unpack();
-        if(strcmp(id,itemId)==0){
+        if((id==itemId)){
            return itemStocks;
         }
     }

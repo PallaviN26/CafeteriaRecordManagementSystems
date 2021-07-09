@@ -6,7 +6,9 @@
 #include "OrderDetails.hpp"
 #include "Item.hpp"
 using namespace std;
-#define ITEM_H
+
+item itemobj;
+
 int  orderDetails ::  generateOrderId(){
     srand(time(0));
     return rand() % 900;
