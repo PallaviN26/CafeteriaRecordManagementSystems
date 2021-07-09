@@ -1,10 +1,9 @@
 #include<string>
-#include "base.hpp"
 #ifndef ITEM_H
 #define ITEM_H
 using namespace std;
 // fstream ifile;
-class Bill : public base{
+class Bill{
 
     public :
       int   orderId;
@@ -12,14 +11,14 @@ class Bill : public base{
       float totalAmount;
       int   method;
      public:
-       void read() override;
-       void pack() override;
-       void unpack() override;
-       void display() override;
-       void search() override;
-       void removeRecord() override;
-       void modify() override;
-       void accessing() override;
+       void read() ;
+       void pack() ;
+       void unpack() ;
+       void display() ;
+       void search() ;
+       void removeRecord() ;
+       void modify() ;
+       void accessing();
 
 };
 #endif

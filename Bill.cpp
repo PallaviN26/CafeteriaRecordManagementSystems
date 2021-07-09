@@ -12,7 +12,7 @@ using namespace std;
 //fstream sfile;
 
 
-void bill :: opener(fstream &ifile,char *filename,ios_base::openmode mode){
+void bill:: opener(fstream &ifile,char *filename,ios_base::openmode mode){
     ifile.open(filename,mode);
     if(!ifile){
         cout<<"File not found\n";
