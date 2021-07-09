@@ -1,11 +1,11 @@
 #include<string>
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef ITEM_HPP
+#define ITEM_HPP
 using namespace std;
 // fstream ifile;
 class item {
     public :
-       char  itemId[10];
+       int  itemId;
        char itemName[25];
        char itemCategory[25];
        int  itemStocks;
@@ -20,6 +20,6 @@ class item {
        void removeRecord() ;
        void modify() ;
        void accessing();
-       int getQuantity(char* id);
+       int getQuantity(int id);
 };
 #endif

@@ -6,7 +6,12 @@
 #include "OrderDetails.hpp"
 #include "Item.hpp"
 using namespace std;
+<<<<<<< HEAD
 #define ITEM_H
+=======
+
+item itemobj;
+>>>>>>> 08251cbcb87d8d514ea90c6ea20f210e5e522ae4
 
 int  orderDetails ::  generateOrderId(){
     srand(time(0));
