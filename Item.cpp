@@ -27,9 +27,9 @@ void item::read(){
         return;
     }
     cout<<"Enter details:\n";
-    cin.ignore();
     cout<<"Enter item id: ";
     cin>>itemId;
+    cin.ignore();
     cout<<"Enter food item name: ";
     gets( itemName);
     cout<<"Enter item category: ";
