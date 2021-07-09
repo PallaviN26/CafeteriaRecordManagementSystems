@@ -8,8 +8,8 @@ class item {
        char  itemId[10];
        char itemName[25];
        char itemCategory[25];
-       char  itemStocks[10];
-       char  pricePerUnit[10];
+       int  itemStocks;
+       float pricePerUnit;
     public:
        void opener(fstream &ifile,char *fileName,ios_base::openmode mode);
        void read() ;

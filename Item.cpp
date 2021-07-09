@@ -5,6 +5,7 @@
 #include<cstring>
 #include<fstream>
 #include<stdlib.h>
+#include<typeinfo>
 
 #include "Item.hpp"
 #define fileName "item.txt"
@@ -34,9 +35,9 @@ void item::read(){
     cout<<"Enter item category: ";
     gets(itemCategory);
     cout<<"Enter item stock: ";
-    gets(itemStocks);
+    cin>>itemStocks;
     cout<<"Enter price per unit: ";
-    gets(pricePerUnit);
+    cin>>pricePerUnit;
     pack();
 }
 
@@ -48,11 +49,7 @@ void item::pack(){
     strcat(buffer,"|");
     strcat(buffer,itemCategory);
     strcat(buffer,"|");
-    strcat(buffer,itemStocks);
-    strcat(buffer,"|");
-    strcat(buffer,pricePerUnit);
-    strcat(buffer,"|#");
-    sfile<<buffer<<"\n";
+    sfile<<buffer<<itemStocks<<"|"<<pricePerUnit<<"|#\n";
 }
 void item::display(){
     opener(sfile,fileName,ios::in);
@@ -67,7 +64,7 @@ void item::display(){
         unpack();
         if(sfile.eof())
             break;
-        else{
+        else if((itemStocks)>0){
             cout<<setw(10)<<itemId<<setw(25)<<itemName<<setw(25)<<itemCategory<<setw(10)<<itemStocks<<setw(10)<<pricePerUnit<<endl;
         }
         // i--;
@@ -76,12 +73,16 @@ void item::display(){
 
 void item::unpack(){
     char buffer[100];
+    char stackBuf[10],priceBuf[10];
     sfile.getline(itemId,10,'|');
     sfile.getline(itemName,25, '|' );
     sfile.getline(itemCategory,25,'|');
-    sfile.getline(itemStocks,10,'|');
-    sfile.getline(pricePerUnit,10,'|');
+    sfile.getline(stackBuf,10,'|');
+    sfile.getline(priceBuf,10,'|');
+    itemStocks=atoi(stackBuf);
+    pricePerUnit=atof(priceBuf);
     sfile.getline(buffer,100,'#\n');
+   
 }
 void item::removeRecord(){
     //display();
@@ -111,7 +112,7 @@ void item::accessing(){
   int n;
   while (1)
   {
-    cout<<"1-read\t2-display\t3-search\t4-exit\nEnter choice:";
+    cout<<"1-Add an item\t2-Current Menu\t3-Search for a food by item id\t4-exit\nEnter choice:";
     cin>>n;
     switch (n)
     {
@@ -133,7 +134,7 @@ void item::accessing(){
 int item::getQuantity(char* id){
     opener(sfile,fileName,ios::in);
     if(!sfile){
-        return;
+        return 0;
     }
     cin.ignore();
     while (!sfile.eof())
