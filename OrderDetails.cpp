@@ -8,6 +8,8 @@
 using namespace std;
 
 item itemobj;
+fstream sfile;
+#define fileName "order.txt"
 
 int  orderDetails ::  generateOrderId(){
     srand(time(0));
@@ -25,6 +27,7 @@ void orderDetails :: read(){
         cout<<"Sorry cant make the order !!! \n";
         return;
     }
+    calculateAmount(itemId);
     pack();
 }
 int orderDetails :: validate(int itemId , int quantity){
@@ -35,5 +38,8 @@ int orderDetails :: validate(int itemId , int quantity){
         return 0;   
 }
 void orderDetails :: pack(){
-
+    sfile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#\n";
+}
+float  orderDetails :: calculateAmount(int itemId){
+  return  itemobj.getPrice(itemId) * quantity;
 }

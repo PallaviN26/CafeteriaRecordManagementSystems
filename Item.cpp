@@ -140,3 +140,18 @@ int item::getQuantity(int id){
     }
     return 0;
 }
+float item :: getPrice(int id){
+        opener(sfile,fileName,ios::in);
+    if(!sfile){
+        return 0;
+    }
+    cin.ignore();
+    while (!sfile.eof())
+    {
+        unpack();
+        if((id==itemId)){
+           return pricePerUnit;
+        }
+    }
+    return 0.00;
+}

@@ -21,5 +21,6 @@ class item {
        void modify() ;
        void accessing();
        int getQuantity(int id);
-};
+       float getPrice(int id);
+      };
 #endif

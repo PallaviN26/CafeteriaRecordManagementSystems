@@ -21,5 +21,6 @@ public:
   void accessing();
   int generateOrderId();
   int validate(int itemId,int quantity);
+  float calculateAmount(int itemId);
 };
 #endif
