@@ -9,3 +9,9 @@ int  orderDetails ::  generateOrderId(){
     srand(time(0));
     return rand() % 900;
 }
+void orderDetails :: read(){
+    cout<<"Enter the itemId";
+    cin>>itemId;
+    cout<<"Enter the quantity";
+    cin>>quantity; 
+}
