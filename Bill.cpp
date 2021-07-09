@@ -20,19 +20,9 @@ void bill:: opener(fstream &ifile,char *filename,ios_base::openmode mode){
     }
 }
 void bill :: read(){
-    opener(sfile,fileName,ios::app);
-    if(!sfile){
-        
-        return;
-    }
-    cout<<"Enter details:\n";
-    cin.ignore();
-    cout<<"Enter order id: ";
-    gets(orderId);
-    cout<<"Enter mode of payment";
-    cout<<"1.Cash \t 2.Card \t 3. UPI \n ";
-    cin>>method;
-    pack();
+    cout<<"Enter the payment Method\n";
+    cout<<"1. Cash \t"<<"2. Card\t"<<"3.UPI\n";
+    cin >> method;
 }
 
 void item::pack(){
