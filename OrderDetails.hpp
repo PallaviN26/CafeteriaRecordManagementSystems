@@ -20,7 +20,7 @@ public:
   void display() ;
   void search();
   void removeRecord() ;
-  void modify() ;
+  void modify(int id,int item, int num) ;
   void particularOrderAccessing();
   void accessing();
   int generateOrderId();

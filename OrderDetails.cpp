@@ -95,4 +95,22 @@ void orderDetails::particularOrderAccessing(){
     }
     orderFile.close();
 }
+void orderDetails :: modify(int id , int item , int num){
+    int pos ;
+    opener(orderFile,fileName,ios::in|ios::binary|ios::out);
+    while(!orderFile.eof()){
+        pos = orderFile.tellg();
+        unpack();
+        if(orderFile){
+            if(id == orderId && item == itemId){
+                orderFile.seekp(pos);
+                itemobj.modify(item,quantity-num);
+                quantity = num;
+                pack();
+                break;
+            }
 
+        }
+    }
+
+}
