@@ -42,9 +42,11 @@ void orderDetails :: read(){
         cout<<"Sorry cant make the order !!! \n";
         return;
     }
-    amount=calculateAmount(itemId);
+     amount=calculateAmount(itemId);
+    
     pack();
     orderFile.close();
+    
 }
 int orderDetails :: validate(int itemId , int quantity){
 
@@ -55,6 +57,7 @@ int orderDetails :: validate(int itemId , int quantity){
 }
 void orderDetails :: pack(){
     orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#\n";
+    
 }
 float  orderDetails :: calculateAmount(int itemId){
   return  itemobj.getPrice(itemId) * quantity;

@@ -87,7 +87,7 @@ void item::removeRecord(){
     cout<<"Item not found!\n";
 }
 
-void item::accessing(){
+void bill::accessing(){
     
 //   char fileName[25]="item.txt";
   int n;

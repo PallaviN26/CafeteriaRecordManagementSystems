@@ -6,3 +6,4 @@
 6|Onion Dosa |BF|10|50|#
 4|Coffee|Drink|50|15|#
 7|Pulav|BF|10|40|#
+6|kurkure|snacks|10|20|#

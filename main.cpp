@@ -26,7 +26,9 @@ int main()
     case 2:{
             
             }  break;
-    case 3:cout<<"Byee";
+    case 3 : {
+                itemobj.display();
+    }
             break;
     case 4:cout<<"Tata";
            break;

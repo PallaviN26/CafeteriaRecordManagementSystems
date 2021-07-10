@@ -2,5 +2,6 @@
     "files.associations": {
         "iostream": "cpp",
         "iosfwd": "cpp"
-    }
+    },
+    "terminal.integrated.shell.windows": "C:\\Windows\\system32\\cmd.exe"
 }

@@ -79,7 +79,6 @@ void item::unpack(){
     itemStocks=atoi(stackBuf);
     pricePerUnit=atof(priceBuf);
     itemFile.getline(buffer,100,'#\n');
-   
 }
 void item::removeRecord(){
     //display();
@@ -138,12 +137,10 @@ void item::accessing(){
                 case 2:
                     goto takeOrder;
                     break;
-
                 default:
                     goto menu;
                 }
             }
-
             break;
         default:
             return;
@@ -152,7 +149,8 @@ void item::accessing(){
   }
 }
 int item::getQuantity(int id){
-    opener(itemFile,fileName,ios::in);
+    opener(itemFile,fileName,ios::app);
+    int stocks = 0;
     if(!itemFile){
         cout<<"Exit from getquantity";
         // return -1;
@@ -162,11 +160,12 @@ int item::getQuantity(int id){
     {
         unpack();
         if((id==itemId)){
-           return itemStocks;
+            stocks = itemStocks;
+           break;
         }
     }
     itemFile.close();
-    return 0;
+    return stocks;
 }
 float item :: getPrice(int id){
     opener(itemFile,fileName,ios::in);
@@ -176,14 +175,17 @@ float item :: getPrice(int id){
         exit(0);
     }
     cin.ignore();
+    float price = 0.00;
     while (!itemFile.eof())
     {
         unpack();
         cout<<"id "<<id<<"item id"<<itemId<<endl;
         if((id==itemId)){
-           return pricePerUnit;
+            
+           price =  pricePerUnit;
+           break;
         }
     }
     itemFile.close();
-    return 0.00;
+    return price;
 }
