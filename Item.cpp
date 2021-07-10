@@ -234,7 +234,6 @@ float item :: getPrice(int id){
     itemFile.close();
     return price;
 }
-<<<<<<< HEAD
 char * item::getItemName(int id){
     opener(itemFile,fileName,ios::in);
     if(!itemFile){
@@ -251,5 +250,3 @@ char * item::getItemName(int id){
         }
     }
 }
-=======
->>>>>>> 21c2ba9895530729851ba980f8e8753ecf98e71b
