@@ -1,6 +1,8 @@
-1|Idli|BF|10|40|#
+1|Idli|BF|6|40|#
+
 2|Dosa|BF|10|50|#
-3|Noodles|Chinese|10|70|#
+3|Noodles|Chinese|7|70|#
+
 10|Masala Dosa|Breakfast|45|50|#
 5|Fried Rice|Chinese|0|60|#
 6|Onion Dosa |BF|10|50|#

@@ -80,27 +80,43 @@ void item::unpack(){
     pricePerUnit=atof(priceBuf);
     itemFile.getline(buffer,100,'#\n');
 }
-void item::removeRecord(){
+int  item::search(int id){
     //display();
     opener(itemFile,fileName,ios::in);
     if(!itemFile){
-        return;
+        return -1;
     }
-    int id;
     cin.ignore();
-    cout<<"Id of item to search:";
-    cin>>(id);
+    int count = 0;
     while (!itemFile.eof())
     {
         unpack();
-        // cout<<"id:"<<id<<"\titemid"<<itemId<<"\tcomparision"<<strcmp(id,itemId)<<endl;
         if((id==itemId)){
-            cout<<"Item Id:"<<itemId<<"\nItem Name: "<<itemName<<"\nItem Category: "<<itemCategory<<"\nItem Stocks: "<<itemStocks<<"\nItem price: "<<pricePerUnit<<endl;
-            return;
+            return count++;
         }
+        count++;
     }
     cout<<"Item not found!\n";
+    return 0;
     itemFile.close();
+}
+void item :: modify(int id , int stocks){
+   int pos ;
+   opener(itemFile,fileName,ios::in | ios :: binary | ios :: out );
+   while(!itemFile.eof()){
+       pos = itemFile.tellg();
+       unpack();
+       if(itemFile){
+           if(id == itemId){
+               itemStocks += stocks;
+               itemFile.seekp(pos);
+               pack();
+               break;
+           }
+            
+       }
+   }
+   itemFile.close();
 }
 
 void item::accessing(){

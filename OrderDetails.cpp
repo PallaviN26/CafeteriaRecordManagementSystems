@@ -44,8 +44,8 @@ void orderDetails :: read(){
         return;
     }
      amount=calculateAmount(itemId);
-    
     pack();
+    itemobj.modify(itemId,quantity * (-1) );
     orderFile.close();
     
 }
