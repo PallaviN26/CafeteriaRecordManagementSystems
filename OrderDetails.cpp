@@ -106,3 +106,41 @@ void orderDetails::modify(){
     int currOrderId=orderId;
     
 }
+float orderDetails :: calculateTotalAmount(int id){
+        opener(orderFile,fileName,ios::in);
+        float total = 0.0;
+        int flag = 0;
+        while(!orderFile.eof()){
+            unpack();
+            if(orderFile){
+                if(id == orderId){
+                    total = total + amount; 
+                    flag = 1;
+                }
+                else if(flag == 1)
+                    break;
+            }
+        }
+        orderFile.close();
+        return total;
+}
+
+int orderDetails :: calculateTotalQuantity(int id){
+        opener(orderFile,fileName,ios::in);
+        int total = 0;
+        int flag = 0;
+        while(!orderFile.eof()){
+            unpack();
+            if(orderFile){
+                if(id == orderId){
+                    total = total + quantity; 
+                    flag = 1;
+                }
+                else if(flag == 1)
+                    break;
+            }
+        }
+        orderFile.close();
+        return total;
+}
+
