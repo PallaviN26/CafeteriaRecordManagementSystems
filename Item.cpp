@@ -164,10 +164,12 @@ void item::accessing(){
                         {
                         case 1:
                             cout<<"Modify order";
+
                             //od.modify();
                             break;
                         case 2:
                             cout<<"Bil generate\n";
+                            
                             break;
                         case 3:
                             goto takeOrder;
