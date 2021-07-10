@@ -149,7 +149,7 @@ void item::accessing(){
   }
 }
 int item::getQuantity(int id){
-    opener(itemFile,fileName,ios::app);
+    opener(itemFile,fileName,ios::in);
     int stocks = 0;
     if(!itemFile){
         cout<<"Exit from getquantity";

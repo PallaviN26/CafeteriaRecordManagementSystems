@@ -40,6 +40,7 @@ void orderDetails :: read(){
     {
         cout<<"The available quantity is only "<< availQuantity <<endl;
         cout<<"Sorry cant make the order !!! \n";
+        orderFile.close();
         return;
     }
      amount=calculateAmount(itemId);
@@ -50,8 +51,10 @@ void orderDetails :: read(){
 }
 int orderDetails :: validate(int itemId , int quantity){
 
-    if(itemobj.getQuantity(itemId) < quantity )
-        return itemobj.getQuantity(itemId);
+    if(itemobj.getQuantity(itemId) < quantity ){
+        cout<< itemobj.getQuantity(itemId);
+        return quantity;
+    }
     else
         return 0;   
 }
