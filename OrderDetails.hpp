@@ -12,6 +12,7 @@ public:
   int flag;//this is for reference of whether there is multiple food item or not, generates id if it is first else not
 
 public:
+  orderDetails();
   orderDetails(int f);
   void opener(fstream &ifile,char *filename,ios_base::openmode mode);
   void read();
@@ -21,7 +22,7 @@ public:
   void search();
   void removeRecord() ;
   void modify() ;
-  void particularOrderAccessing();
+  void particularOrderAccessing(int id);
   void accessing();
   int generateOrderId();
   int validate(int itemId,int quantity);

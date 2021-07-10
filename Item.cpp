@@ -9,6 +9,7 @@
 
 #include "Item.hpp"
 #include "OrderDetails.hpp"
+#include "Bill.hpp"
 #define fileName "item.txt"
 using namespace std;
 fstream itemFile;
@@ -126,6 +127,7 @@ void item::accessing(){
   int viewOrderChoice;
   int orderIdRef;
   orderDetails od(0);
+  Bill b;
   while (1)
   {
       menu:
@@ -153,7 +155,7 @@ void item::accessing(){
                 switch (takeOrderChoice)
                 {
                 case 1:
-                    od.particularOrderAccessing();
+                    od.particularOrderAccessing(orderIdRef);
                     
                     while (1)
                     {
@@ -169,7 +171,13 @@ void item::accessing(){
                             break;
                         case 2:
                             cout<<"Bil generate\n";
-                            
+                            b.read(orderIdRef);
+                            cout<<orderIdRef<<endl;//for bill 
+                            od.particularOrderAccessing(orderIdRef);
+                            // cout<<"Total Qauntity : "<<od.calculateTotalQuantity(orderIdRef);
+                            cout<<"Total Amount : "<<od.calculateTotalAmount(orderIdRef)<<endl;
+                            od.flag=0;
+                            goto menu;
                             break;
                         case 3:
                             goto takeOrder;

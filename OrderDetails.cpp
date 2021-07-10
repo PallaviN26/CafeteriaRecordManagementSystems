@@ -17,7 +17,7 @@ void orderDetails :: opener(fstream &ifile,char *filename,ios_base::openmode mod
         return;
     }
 }
-
+orderDetails::orderDetails(){}
 orderDetails::orderDetails(int f):flag(f){}
 
 int  orderDetails ::  generateOrderId(){
@@ -76,14 +76,12 @@ void orderDetails::unpack(){
     quantity=atoi(quantitybuf);
     amount=atof(amountBuf);
 }
-void orderDetails::particularOrderAccessing(){
+void orderDetails::particularOrderAccessing(int currOrderId){
     opener(orderFile,fileName,ios::in);
     if(!orderFile){
         return;
     }
-    int currOrderId=orderId;
-    // cout<<setw(25);
-    // cout<<orderId<<endl;//for bill 
+    // int currOrderId=orderId;
     cout<<setiosflags(ios::left);
     cout<<setw(10)<<"Item Id"<<setw(25)<<"Item Name"<<setw(10)<<"Quantity"<<setw(25)<<"PricePerUnit"<<setw(10)<<"Amount"<<endl;
     while(1){
