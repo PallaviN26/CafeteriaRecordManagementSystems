@@ -107,6 +107,7 @@ void item::accessing(){
 //   char fileName[25]="item.txt";
   int mainchoice;
   int takeOrderChoice;
+  int viewOrderChoice;
   orderDetails od(0);
   while (1)
   {
@@ -126,13 +127,38 @@ void item::accessing(){
                     od.flag=1;
                 }
             od.read();
+
             while(1){
+                //orderProgress:
                 cout<<"\n1.View order\t2.Continue Ordering\t3.Return\nEnter choice: ";
                 cin>>takeOrderChoice;
                 switch (takeOrderChoice)
                 {
                 case 1:
                     od.particularOrderAccessing();
+                    
+                    while (1)
+                    {
+                        cout<<"\n1.Modify Order\t2.Generate Bill\t3.Continue Ordering\t4.Cancel Order\nEnter choice: ";
+                        cin>>viewOrderChoice;
+                        switch (viewOrderChoice)
+                        {
+                        case 1:
+                            cout<<"Modify order";
+                            //od.modify();
+                            break;
+                        case 2:
+                            cout<<"Bil generate\n";
+                            break;
+                        case 3:
+                            goto takeOrder;
+                            break;
+                        default:
+                            cout<<"Order cancelled so modify order file and to main menu\n";
+                            goto menu;//goto takeOrder;
+                            break;
+                        }
+                    }
                     break;
                 case 2:
                     goto takeOrder;
@@ -179,7 +205,7 @@ float item :: getPrice(int id){
     while (!itemFile.eof())
     {
         unpack();
-        cout<<"id "<<id<<"item id"<<itemId<<endl;
+        //cout<<"id "<<id<<"item id"<<itemId<<endl;
         if((id==itemId)){
             
            price =  pricePerUnit;
@@ -188,4 +214,20 @@ float item :: getPrice(int id){
     }
     itemFile.close();
     return price;
+}
+char * item::getItemName(int id){
+    opener(itemFile,fileName,ios::in);
+    if(!itemFile){
+        cout<<"Exit from getItemName\n";
+        exit(0);
+    }
+    while (1)
+    {
+        unpack();
+        if(id==itemId)
+        {
+            itemFile.close();
+            return itemName;
+        }
+    }
 }

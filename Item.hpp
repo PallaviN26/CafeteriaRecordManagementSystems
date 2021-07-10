@@ -22,5 +22,6 @@ class item {
        void accessing();
        int getQuantity(int id);
        float getPrice(int id);
+       char * getItemName(int id);
       };
 #endif
