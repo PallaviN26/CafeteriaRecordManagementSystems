@@ -16,11 +16,12 @@ class item {
        void pack();
        void unpack();
        void display() ;
-       void search() ;
+       int  search(int id) ;
        void removeRecord() ;
-       void modify() ;
+       void modify(int id , int stocks) ;
        void accessing();
        int getQuantity(int id);
        float getPrice(int id);
+       char * getItemName(int id);
       };
 #endif

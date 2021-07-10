@@ -44,10 +44,9 @@ void orderDetails :: read(){
         return;
     }
      amount=calculateAmount(itemId);
-    
     pack();
+    itemobj.modify(itemId,quantity * (-1) );
     orderFile.close();
-    
 }
 int orderDetails :: validate(int itemId , int quantity){
 
@@ -71,6 +70,7 @@ void orderDetails::unpack(){
     orderFile.getline(iidBuf,10,'|');
     orderFile.getline(quantitybuf,10,'|');
     orderFile.getline(amountBuf,10,'|');
+    orderFile.getline(buffer,50,'#\n');
     orderId=atoi(oidBuf);
     itemId=atoi(iidBuf);
     quantity=atoi(quantitybuf);
@@ -88,12 +88,21 @@ void orderDetails::particularOrderAccessing(){
     cout<<setw(10)<<"Item Id"<<setw(25)<<"Item Name"<<setw(10)<<"Quantity"<<setw(25)<<"PricePerUnit"<<setw(10)<<"Amount"<<endl;
     while(1){
         unpack();
+        // cout<<"currOrderId: "<<currOrderId<<"OrderId: "<<orderId<<endl;
         if(orderFile.eof())
             break;
+        
         else if(currOrderId==orderId){
-            cout<<setw(10)<<itemId<<setw(25)<<itemobj.itemName<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
+            cout<<setw(10)<<itemId<<setw(25)<<itemobj.getItemName(itemId)<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
         }
     }
     orderFile.close();
 }
-
+void orderDetails::modify(){
+    opener(orderFile,fileName,ios::in);
+    if(!orderFile){
+        return;
+    }
+    int currOrderId=orderId;
+    
+}

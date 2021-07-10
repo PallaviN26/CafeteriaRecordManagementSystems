@@ -80,33 +80,51 @@ void item::unpack(){
     pricePerUnit=atof(priceBuf);
     itemFile.getline(buffer,100,'#\n');
 }
-void item::removeRecord(){
+int  item::search(int id){
     //display();
     opener(itemFile,fileName,ios::in);
     if(!itemFile){
-        return;
+        return -1;
     }
-    int id;
     cin.ignore();
-    cout<<"Id of item to search:";
-    cin>>(id);
+    int count = 0;
     while (!itemFile.eof())
     {
         unpack();
-        // cout<<"id:"<<id<<"\titemid"<<itemId<<"\tcomparision"<<strcmp(id,itemId)<<endl;
         if((id==itemId)){
-            cout<<"Item Id:"<<itemId<<"\nItem Name: "<<itemName<<"\nItem Category: "<<itemCategory<<"\nItem Stocks: "<<itemStocks<<"\nItem price: "<<pricePerUnit<<endl;
-            return;
+            return count++;
         }
+        count++;
     }
     cout<<"Item not found!\n";
+    return 0;
     itemFile.close();
+}
+void item :: modify(int id , int stocks){
+   int pos ;
+   opener(itemFile,fileName,ios::in | ios :: binary | ios :: out );
+   while(!itemFile.eof()){
+       pos = itemFile.tellg();
+       unpack();
+       if(itemFile){
+           if(id == itemId){
+               itemStocks += stocks;
+               itemFile.seekp(pos);
+               pack();
+               break;
+           }
+            
+       }
+   }
+   itemFile.close();
 }
 
 void item::accessing(){
 //   char fileName[25]="item.txt";
   int mainchoice;
   int takeOrderChoice;
+  int viewOrderChoice;
+  int orderIdRef;
   orderDetails od(0);
   while (1)
   {
@@ -123,16 +141,43 @@ void item::accessing(){
             if(od.flag==0)
                 {
                     od.orderId=od.generateOrderId();
+                    orderIdRef=od.orderId;
                     od.flag=1;
                 }
             od.read();
+
             while(1){
+                //orderProgress:
                 cout<<"\n1.View order\t2.Continue Ordering\t3.Return\nEnter choice: ";
                 cin>>takeOrderChoice;
                 switch (takeOrderChoice)
                 {
                 case 1:
                     od.particularOrderAccessing();
+                    
+                    while (1)
+                    {
+                        cout<<"\n1.Modify Order\t2.Generate Bill\t3.Continue Ordering\t4.Cancel Order\nEnter choice: ";
+                        cin>>viewOrderChoice;
+                        od.orderId=orderIdRef;
+                        switch (viewOrderChoice)
+                        {
+                        case 1:
+                            cout<<"Modify order";
+                            //od.modify();
+                            break;
+                        case 2:
+                            cout<<"Bil generate\n";
+                            break;
+                        case 3:
+                            goto takeOrder;
+                            break;
+                        default:
+                            cout<<"Order cancelled so modify order file and to main menu\n";
+                            goto menu;//goto takeOrder;
+                            break;
+                        }
+                    }
                     break;
                 case 2:
                     goto takeOrder;
@@ -179,7 +224,7 @@ float item :: getPrice(int id){
     while (!itemFile.eof())
     {
         unpack();
-        cout<<"id "<<id<<"item id"<<itemId<<endl;
+        //cout<<"id "<<id<<"item id"<<itemId<<endl;
         if((id==itemId)){
             
            price =  pricePerUnit;
@@ -188,4 +233,20 @@ float item :: getPrice(int id){
     }
     itemFile.close();
     return price;
+}
+char * item::getItemName(int id){
+    opener(itemFile,fileName,ios::in);
+    if(!itemFile){
+        cout<<"Exit from getItemName\n";
+        exit(0);
+    }
+    while (1)
+    {
+        unpack();
+        if(id==itemId)
+        {
+            itemFile.close();
+            return itemName;
+        }
+    }
 }
