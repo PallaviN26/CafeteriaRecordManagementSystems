@@ -124,6 +124,7 @@ void item::accessing(){
   int mainchoice;
   int takeOrderChoice;
   int viewOrderChoice;
+  int orderIdRef;
   orderDetails od(0);
   while (1)
   {
@@ -140,6 +141,7 @@ void item::accessing(){
             if(od.flag==0)
                 {
                     od.orderId=od.generateOrderId();
+                    orderIdRef=od.orderId;
                     od.flag=1;
                 }
             od.read();
@@ -157,6 +159,7 @@ void item::accessing(){
                     {
                         cout<<"\n1.Modify Order\t2.Generate Bill\t3.Continue Ordering\t4.Cancel Order\nEnter choice: ";
                         cin>>viewOrderChoice;
+                        od.orderId=orderIdRef;
                         switch (viewOrderChoice)
                         {
                         case 1:
