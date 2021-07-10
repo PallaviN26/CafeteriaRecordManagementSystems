@@ -106,6 +106,7 @@ void item :: modify(int id , int stocks){
    opener(itemFile,fileName,ios::in | ios :: binary | ios :: out );
    while(!itemFile.eof()){
        pos = itemFile.tellg();
+       cout<<"Position in item modify: "<<pos<<endl;
        unpack();
        if(itemFile){
            if(id == itemId){
