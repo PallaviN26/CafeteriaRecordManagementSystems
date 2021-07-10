@@ -47,7 +47,6 @@ void orderDetails :: read(){
     pack();
     itemobj.modify(itemId,quantity * (-1) );
     orderFile.close();
-    
 }
 int orderDetails :: validate(int itemId , int quantity){
 
