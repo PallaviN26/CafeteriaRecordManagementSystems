@@ -98,14 +98,6 @@ void orderDetails::particularOrderAccessing(){
     }
     orderFile.close();
 }
-void orderDetails::modify(){
-    opener(orderFile,fileName,ios::in);
-    if(!orderFile){
-        return;
-    }
-    int currOrderId=orderId;
-    
-}
 float orderDetails :: calculateTotalAmount(int id){
         opener(orderFile,fileName,ios::in);
         float total = 0.0;
@@ -143,4 +135,22 @@ int orderDetails :: calculateTotalQuantity(int id){
         orderFile.close();
         return total;
 }
+void orderDetails :: modify(int id , int item , int num){
+    int pos ;
+    opener(orderFile,fileName,ios::in|ios::binary|ios::out);
+    while(!orderFile.eof()){
+        pos = orderFile.tellg();
+        unpack();
+        if(orderFile){
+            if(id == orderId && item == itemId){
+                orderFile.seekp(pos);
+                itemobj.modify(item,quantity-num);
+                quantity = num;
+                pack();
+                break;
+            }
 
+        }
+    }
+
+}
