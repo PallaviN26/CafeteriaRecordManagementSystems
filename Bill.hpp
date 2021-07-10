@@ -1,6 +1,6 @@
 #include<string>
-#ifndef BILL_H
-#define BILL_H
+#ifndef BILL_HPP
+#define BILL_HPP
 using namespace std;
 // fstream ifile;
 class Bill{
@@ -10,6 +10,8 @@ class Bill{
       int   totalQuantity;
       float totalAmount;
       char method[25];
+      char billingTime[15];
+      char billingDate[15];
      public:
        void opener(fstream &ifile,char *filename,ios_base::openmode mode);
        void read(int id) ;

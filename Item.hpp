@@ -23,5 +23,6 @@ class item {
        int getQuantity(int id);
        float getPrice(int id);
        char * getItemName(int id);
+       void operationsOnItem();
       };
 #endif

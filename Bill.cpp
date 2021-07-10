@@ -5,6 +5,7 @@
 #include<cstring>
 #include<fstream>
 #include<stdlib.h>
+#include<ctime>
 
 #include "Bill.hpp"
 #include "OrderDetails.hpp"
@@ -31,6 +32,19 @@ void Bill :: read(int id){
     orderId=id;
     totalQuantity=od.calculateTotalQuantity(id);
     float tempAmount=od.calculateTotalAmount(id);
+    time_t now = time(0);
+    tm *ltm=localtime(&now);
+    strcpy(billingTime,to_string(ltm->tm_hour).c_str());
+    strcat(billingTime,":");
+    strcat(billingTime,to_string(ltm->tm_min).c_str());
+    strcat(billingTime,":");
+    strcat(billingTime,to_string(ltm->tm_sec).c_str());
+
+    strcpy(billingDate,to_string(ltm->tm_year+1900).c_str());
+    strcat(billingDate,"-");
+    strcat(billingDate,to_string(ltm->tm_mon+1).c_str());
+    strcat(billingDate,"-");
+    strcat(billingDate,to_string(ltm->tm_mday).c_str());
     cout<<"Total amount printing in read: ";
     cout<<tempAmount;
     totalAmount=tempAmount;
@@ -56,7 +70,7 @@ void Bill :: read(int id){
 }
 
 void Bill::pack(){
-    billFile<<orderId<<"|"<<totalQuantity<<"|"<<totalAmount<<"|"<<method<<"|#\n";
+    billFile<<orderId<<"|"<<totalQuantity<<"|"<<totalAmount<<"|"<<method<<"|"<<billingDate<<"|"<<billingTime<<"|#\n";
 }
 void Bill::display(){
     opener(billFile,fileName,ios::in);
@@ -66,28 +80,30 @@ void Bill::display(){
     }
     char buffer[100];
     cout<<setiosflags(ios::left);
-    cout<<setw(10)<<"Order Id"<<setw(15)<<"Total Quantity"<<setw(15)<<"Total Amount"<<setw(25)<<"Method"<<endl;
+    cout<<setw(10)<<"Order Id"<<setw(15)<<"Total Quantity"<<setw(15)<<"Total Amount"<<setw(25)<<"Method"<<setw(15)<<"Date"<<setw(15)<<"Time"<<endl;
     while(1){
         unpack();
         if(billFile.eof())
             break;
         else{
-            cout<<setw(10)<<orderId<<setw(15)<<totalQuantity<<setw(15)<<totalAmount<<setw(25)<<method<<endl;
+            cout<<setw(10)<<orderId<<setw(15)<<totalQuantity<<setw(15)<<totalAmount<<setw(25)<<method<<setw(15)<<billingDate<<setw(15)<<billingTime<<endl;
         }
         // i--;
     }
 }
 
 void Bill::unpack(){
-    char buffer[75],idBuf[10],quantityBuf[10],amountBuf[10];
+    char buffer[100],idBuf[10],quantityBuf[10],amountBuf[10];
     billFile.getline(idBuf,10,'|');
     billFile.getline(quantityBuf,15, '|' );
     billFile.getline(amountBuf,15,'|');
     billFile.getline(method,25,'|');
+    billFile.getline(billingDate,15,'|');
+    billFile.getline(billingTime,15,'|');
     orderId=atoi(idBuf);
     totalAmount=atof(amountBuf);
     totalQuantity=atoi(quantityBuf);
-    billFile.getline(buffer,75,'#\n');
+    billFile.getline(buffer,100,'#\n');
 }
 
 char * Bill::getMethod(int id){

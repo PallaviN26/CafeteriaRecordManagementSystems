@@ -1,4 +1,5 @@
 #include<string>
+#include<fstream>
 #ifndef ITEM_H
 #define ITEM_H
 using namespace std;
@@ -8,6 +9,7 @@ class chefs {
    char itemName[50];
    int quantity;
    public:
+        void opener(fstream &ifile,char *fileName,ios_base::openmode mode);
        void read() ;
        void pack() ;
        void unpack() ;

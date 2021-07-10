@@ -27,7 +27,7 @@ int main()
             
             }  break;
     case 3 : {
-                itemobj.display();
+                itemobj.operationsOnItem();
     }
             break;
     case 4:cout<<"Tata";
