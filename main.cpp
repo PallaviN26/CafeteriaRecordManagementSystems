@@ -5,6 +5,7 @@
 #include <cstring>
 #include "Item.hpp"
 #include "OrderDetails.hpp"
+#include "Bill.hpp"
 
 #define MAX_BUFFER 75
 using namespace std;
@@ -17,6 +18,7 @@ int main()
     cout<<"1.Customer Service\t2.Order History\t3.Modification Of Menu\t4.Service In Progress\t5.Exit\nEnter choice: ";
     cin>>choice;
     item itemobj;
+    Bill b;
     switch(choice)//first switch(main switch)
     {
     case 1:{
@@ -24,7 +26,7 @@ int main()
           
     }  break;
     case 2:{
-            
+            b.accessing();
             }  break;
     case 3 : {
                 itemobj.operationsOnItem();

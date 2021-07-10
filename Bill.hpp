@@ -17,9 +17,10 @@ class Bill{
        void read(int id) ;
        void pack() ;
        void unpack() ;
-       void display() ;
+       void displayAll() ;
+       void displayToday();
        void search() ;
-       void removeRecord() ;
+      //  void removeRecord() ;
        void modify() ;
        void accessing();
        char * getMethod(int id);

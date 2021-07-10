@@ -72,7 +72,7 @@ void Bill :: read(int id){
 void Bill::pack(){
     billFile<<orderId<<"|"<<totalQuantity<<"|"<<totalAmount<<"|"<<method<<"|"<<billingDate<<"|"<<billingTime<<"|#\n";
 }
-void Bill::display(){
+void Bill::displayAll(){
     opener(billFile,fileName,ios::in);
     if(!billFile){
         cout<<"exit through bill display";
@@ -90,6 +90,39 @@ void Bill::display(){
         }
         // i--;
     }
+    billFile.close();
+}
+
+void Bill::displayToday(){
+    opener(billFile,fileName,ios::in);
+    if(!billFile){
+        cout<<"exit through bill display";
+        exit(0);
+    }
+    char todayDate[15];
+    time_t now=time(0);
+    tm *ltm=localtime(&now);
+    strcpy(todayDate,to_string(ltm->tm_year+1900).c_str());
+    strcat(todayDate,"-");
+    strcat(todayDate,to_string(ltm->tm_mon+1).c_str());
+    strcat(todayDate,"-");
+    strcat(todayDate,to_string(ltm->tm_mday).c_str());
+
+    cout<<setiosflags(ios::right);
+    cout<<setw(50)<<"Date : ";
+    cout<<todayDate<<endl;
+    cout<<setiosflags(ios::left);
+    cout<<setw(10)<<"OrderId"<<setw(15)<<"TotalQuantity"<<setw(15)<<"Total Amount"<<setw(15)<<"Method"<<setw(15)<<"Time"<<endl;
+    while(1){
+        unpack();
+        if(billFile.eof())
+            break;
+        else if(strcmp(todayDate,billingDate)==0){
+            cout<<setw(10)<<orderId<<setw(15)<<totalQuantity<<setw(15)<<totalAmount<<setw(25)<<method<<setw(15)<<billingTime<<endl;
+        }
+        // i--;
+    }
+    billFile.close();
 }
 
 void Bill::unpack(){
@@ -121,50 +154,27 @@ char * Bill::getMethod(int id){
     }
 }
 
-// void item::removeRecord(){
-//     //display();
-//     opener(billFile,fileName,ios::in);
-//     if(!billFile){
-//         return;
-//     }
-//     char id[10];
-//     cin.ignore();
-//     cout<<"Id of item to search:";
-//     gets(id);
-//     while (!billFile.eof())
-//     {
-//         unpack();
-//         // cout<<"id:"<<id<<"\titemid"<<itemId<<"\tcomparision"<<strcmp(id,itemId)<<endl;
-//         if(strcmp(id,itemId)==0){
-//             cout<<"Item Id:"<<itemId<<"\nItem Name: "<<itemName<<"\nItem Category: "<<itemCategory<<"\nItem Stocks: "<<itemStocks<<"\nItem price: "<<pricePerUnit<<endl;
-//             return;
-//         }
-//     }
-//     cout<<"Item not found!\n";
-// }
 
-// void bill::accessing(){
-    
-// //   char fileName[25]="item.txt";
-//   int n;
-//   while (1)
-//   {
-//     cout<<"1-read\t2-display\t3-search\t4-exit\nEnter choice:";
-//     cin>>n;
-//     switch (n)
-//     {
-//         case 1:
-//             read();
-//             break;
-//         case 2:
-//             display();
-//             break;
-//         case 3:
-//             removeRecord();//search()
-//             break;
-//         default:
-//             return;
-//     }
-//     billFile.close();
-//   }
-// }
+void Bill::accessing(){
+  int n;
+  while (1)
+  {
+    cout<<"1-Today's Orders\t2-All Orders\t3-Main\nEnter choice:";
+    cin>>n;
+    switch (n)
+    {
+        case 1:
+            displayToday();
+            break;
+        case 2:
+            displayAll();
+            break;
+        case 3:
+            return;
+            break;
+        default:
+            return;
+    }
+    billFile.close();
+  }
+}
