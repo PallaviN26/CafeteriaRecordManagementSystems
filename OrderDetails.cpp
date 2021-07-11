@@ -3,11 +3,13 @@
 #include <fstream>
 #include <iomanip>
 #include <cstring>
+#include "Chefs.hpp"
 #include "OrderDetails.hpp"
 #include "Item.hpp"
 using namespace std;
 
 item itemobj;
+chefs chefobj;
 fstream orderFile;
 #define fileName "order.txt"
 void orderDetails :: opener(fstream &ifile,char *filename,ios_base::openmode mode){
@@ -91,6 +93,10 @@ void orderDetails::particularOrderAccessing(int currOrderId){
             break;
         
         else if(currOrderId==orderId){
+            chefobj.itemId = itemId;
+            chefobj.quantity = quantity;
+            strcpy(chefobj.itemName , itemobj.itemName);
+            chefobj.pack();
             cout<<setw(10)<<itemId<<setw(25)<<itemobj.getItemName(itemId)<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
         }
     }
