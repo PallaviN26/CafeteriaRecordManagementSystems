@@ -68,15 +68,15 @@ void chefs :: modify(){
 }
 void  chefs::accessing(){
     int choice;
-    cout<<"1. View orders to prepare \t2. Update prepared order \n"
+    cout<<"1. View orders to prepare \t2. Update prepared order \n";
     cout<< "Enter your choice \n";
     cin >> choice;
     switch (choice)
     {
-    case : display();
+    case 1 : display();
         break;
     
-    default: modify();
+    case 2: modify();
         break;
     }
 }
