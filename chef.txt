@@ -1,0 +1,3 @@
+10|Dosa|2|#
+8|Masala Dosa|1|#
+2|kurkure|2|#

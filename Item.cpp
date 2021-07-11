@@ -169,7 +169,7 @@ void item::accessing(){
             switch (takeOrderChoice)
             {
             case 1:
-                od.particularOrderAccessing(orderIdRef);
+                od.particularOrderAccessing(orderIdRef,0);
                 while (1)
                 {
                     cout << "\n1.Modify Order\t2.Generate Bill\t3.Continue Ordering\t4.Cancel Order\nEnter choice: ";
@@ -189,7 +189,7 @@ void item::accessing(){
                         // cout<<"\nBil generate\n";
                         b.read(orderIdRef);
                         cout<<orderIdRef<<endl;//for bill 
-                        od.particularOrderAccessing(orderIdRef);
+                        od.particularOrderAccessing(orderIdRef,1);
                         // cout<<"Total Qauntity : "<<od.calculateTotalQuantity(orderIdRef);
                         cout<<"Total Amount : "<<od.calculateTotalAmount(orderIdRef)<<endl;
                         od.flag=0;

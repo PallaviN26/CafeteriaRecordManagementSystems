@@ -21,7 +21,7 @@ public:
   void display() ;
   void search();
   void removeRecord() ;
-  void particularOrderAccessing(int id);
+  void particularOrderAccessing(int id,int f);
   void modify(int id,int item, int num) ;
   void accessing();
   int generateOrderId();

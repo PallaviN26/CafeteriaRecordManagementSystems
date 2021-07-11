@@ -17,8 +17,15 @@ void chefs::opener(fstream &ifile,char *filename,ios_base::openmode mode){
     }
 }
 void chefs:: pack(){
+    opener(chefFile,fileName,ios::app);
+    if(!chefFile){
+        cout<<"Exit through chef pack";
+        exit(0);
+    }
     chefFile<<itemId<<"|"<<itemName<<"|"<<quantity<<"|#\n";
+    chefFile.close();
 }
+
 
 void chefs:: unpack(){
     char buffer[75],idBuf[10],quantityBuf[10];
@@ -68,15 +75,20 @@ void chefs :: modify(){
 }
 void  chefs::accessing(){
     int choice;
-    cout<<"1. View orders to prepare \t2. Update prepared order \n";
-    cout<< "Enter your choice \n";
-    cin >> choice;
-    switch (choice)
+    while (1)
     {
-    case 1 : display();
-        break;
-    
-    case 2: modify();
-        break;
+        cout<<"1. View orders to prepare \t2. Update prepared order \n";
+        cout<< "Enter your choice \n";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1 : display();
+            break;
+        
+        case 2: modify();
+            break;
+        default :
+            return;
+        }
     }
 }
