@@ -3,11 +3,13 @@
 #include <fstream>
 #include <iomanip>
 #include <cstring>
+#include "Chefs.hpp"
 #include "OrderDetails.hpp"
 #include "Item.hpp"
 using namespace std;
 
 item itemobj;
+chefs chefobj;
 fstream orderFile;
 #define fileName "order.txt"
 void orderDetails :: opener(fstream &ifile,char *filename,ios_base::openmode mode){
@@ -76,7 +78,7 @@ void orderDetails::unpack(){
     quantity=atoi(quantitybuf);
     amount=atof(amountBuf);
 }
-void orderDetails::particularOrderAccessing(int currOrderId){
+void orderDetails::particularOrderAccessing(int currOrderId,int f){
     opener(orderFile,fileName,ios::in);
     if(!orderFile){
         return;
@@ -91,6 +93,12 @@ void orderDetails::particularOrderAccessing(int currOrderId){
             break;
         
         else if(currOrderId==orderId){
+            if(f){
+            chefobj.itemId = itemId;
+            chefobj.quantity = quantity;
+            strcpy(chefobj.itemName , itemobj.itemName);
+            chefobj.pack();
+            }
             cout<<setw(10)<<itemId<<setw(25)<<itemobj.getItemName(itemId)<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
         }
     }
@@ -98,6 +106,11 @@ void orderDetails::particularOrderAccessing(int currOrderId){
 }
 float orderDetails :: calculateTotalAmount(int id){
         opener(orderFile,fileName,ios::in);
+        if(!orderFile)
+        {
+            cout<<"Exit through calculateAmount in orders";
+            exit(0);
+        }
         float total = 0.0;
         int flag = 0;
         while(!orderFile.eof()){

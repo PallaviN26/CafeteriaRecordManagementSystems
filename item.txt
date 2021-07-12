@@ -1,12 +1,9 @@
-1|Idli|BF|45|40|#
-2|Dosa|BF|37|50|#
-3|Noodles|Chinese|80|70|#
-4|Coffee|Drink|43|15|#
-5|Fried Rice|Chinese|49|60|#
-6|Onion Dosa |BF|50|50|#
-7|Pulav|BF|45|40|#
-8|kurkure|snacks|47|20|#
-10|Masala Dosa|Breakfast|44|50|#
-
-
-
+1|Idli|BF|41|40|#
+2|Dosa|BF|31|50|#
+3|Noodles|Chinese|74|70|#
+4|Coffee|Drink|42|15|#
+5|Fried Rice|Chinese|47|60|#
+6|Onion Dosa |BF|46|50|#
+7|Pulav|BF|43|40|#
+8|kurkure|snacks|46|20|#
+10|Masala Dosa|Breakfast|42|70|#
