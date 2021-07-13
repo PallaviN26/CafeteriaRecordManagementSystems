@@ -44,11 +44,9 @@ void chefs::insert(int extra)
         return;
     }
     int addr = hash(itemId);
-    cout << addr;
     int bucketSize = 6;
     int noOfBuckets = 5;
     int pos = addr * (sizeof(chefs) + 4) * noOfBuckets;
-    cout<<"Prasad"<<pos;
     chefFile.seekg(pos, ios::beg);
     char ch = chefFile.peek();
     if (ch != '#')
@@ -62,19 +60,14 @@ void chefs::insert(int extra)
             cout<<id;
             if (id != itemId)
             {
-                cout<<"Byee"<<chefFile.tellp();
                 pos += sizeof(chefs) + 4;
                 i++;
                 chefFile.seekp(pos, ios::beg);
-                cout<<"Pallu"<<chefFile.tellp();
                 ch = chefFile.peek();
-                cout<<"Hello"<<chefFile.tellp();
             }
             else
             {
-                cout<<"Hi"<<chefFile.tellg();
                 chefFile.seekg(pos, ios::beg);
-                cout<<"Hi"<<chefFile.tellp();
                 unpack();
                 quantity += extra;
                 chefFile.seekp(pos, ios::beg);
@@ -142,21 +135,51 @@ void chefs ::display()
 }
 void chefs :: modify(int id,int num){
     item itemObj;
-    int pos;
     opener(chefFile,fileName,ios::in|ios::binary|ios::out);
     if(!chefFile){
         cout<<"Exit through modify chef\n";
         exit(0);
     }
-    while(!chefFile.eof()){
-        pos = chefFile.tellg();
-        unpack();
-            if(itemId == id){
-                //strcpy(itemName,itemObj.getItemName(id));
-                quantity += num;
-
+    int addr = hash(itemId);
+    int bucketSize = 6;
+    int noOfBuckets = 5;
+    int pos = addr * (sizeof(chefs) + 4) * noOfBuckets;
+    chefFile.seekg(pos, ios::beg);
+    char ch = chefFile.peek();
+    if (ch != '#')
+    {
+        int i = 0;
+        char dummy[10];
+        while (ch != '#' && i < bucketSize)
+        {
+            chefFile.getline(dummy, 10, '|');
+            int id = atoi(dummy);
+            cout<<id;
+            if (id != itemId)
+            {
+                pos += sizeof(chefs) + 4;
+                i++;
+                chefFile.seekp(pos, ios::beg);
+                ch = chefFile.peek();
             }
+            else
+            {
+                chefFile.seekg(pos, ios::beg);
+                unpack();
+                quantity -= num;
+                chefFile.seekp(pos, ios::beg);
+                pack();
+                chefFile.close();
+                return;
+            }
+        }
+        if( i == bucketSize){
+            chefFile.close();
+            return;
+        }
     }
+    cout << "Entered wrong id";
+    chefFile.close();
 }
 void chefs::accessing()
 {
