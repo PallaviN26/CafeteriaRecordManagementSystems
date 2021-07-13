@@ -18,5 +18,9 @@ class chefs {
        void removeRecord() ;
        void modify(int id,int q);
        void accessing();
+       int hash(int id);
+       float frac(float x);
+       void insert( int extra);
+       void insertDummy();
 };
 #endif
