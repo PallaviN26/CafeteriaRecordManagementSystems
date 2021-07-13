@@ -29,5 +29,6 @@ public:
   float calculateAmount(int itemId);
   float calculateTotalAmount(int id);
   int calculateTotalQuantity(int id);
+  void deleteOrder(int id);
 };
 #endif

@@ -109,7 +109,7 @@ void Bill::displayToday(){
     strcat(todayDate,to_string(ltm->tm_mday).c_str());
 
     cout<<setiosflags(ios::right);
-    cout<<setw(50)<<"Date : ";
+    cout<<setw(40)<<"Date : ";
     cout<<todayDate<<endl;
     cout<<setiosflags(ios::left);
     cout<<setw(10)<<"OrderId"<<setw(15)<<"TotalQuantity"<<setw(15)<<"Total Amount"<<setw(15)<<"Method"<<setw(15)<<"Time"<<endl;
@@ -159,7 +159,7 @@ void Bill::accessing(){
   int n;
   while (1)
   {
-    cout<<"1-Today's Orders\t2-All Orders\t3-Main\nEnter choice:";
+    cout<<"\n1-Today's Orders\t2-All Orders\t3-Main\nEnter choice:";
     cin>>n;
     switch (n)
     {

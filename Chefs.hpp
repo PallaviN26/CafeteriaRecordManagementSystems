@@ -10,13 +10,13 @@ class chefs {
    int quantity;
    public:
         void opener(fstream &ifile,char *fileName,ios_base::openmode mode);
-       void read(int id,char * name,int q) ;
+       void read() ;
        void pack() ;
        void unpack() ;
        void display() ;
-       void search() ;
+       int search(int id) ;
        void removeRecord() ;
-       void modify();
+       void modify(int id,int q);
        void accessing();
 };
 #endif

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<limits>
 #include <conio.h>
 #include <iostream>
 #include <iomanip>
@@ -28,21 +29,62 @@ void item::read()
     opener(itemFile, fileName, ios::app);
     if (!itemFile)
     {
-
-        return;
+        cout<<"Exit through item read\n";
+        exit(0);
     }
+    char temp;
     cout << "Enter details:\n";
-    cout << "Enter item id: ";
-    cin >> itemId;
-    cin.ignore();
+    do
+    {
+        cout << "Enter item id: ";
+        cin >> itemId;
+        if(cin.good())
+            break;
+        cin.clear();
+        string str;
+        cin>>str;
+        if(str=="quit")
+        break;
+        // cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout<<"\n Enter valid input for id(whole number)\n";
+    } while(1);
+    
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    // cin.ignore(numer);
     cout << "Enter food item name: ";
     gets(itemName);
     cout << "Enter item category: ";
     gets(itemCategory);
-    cout << "Enter item stock: ";
-    cin >> itemStocks;
-    cout << "Enter price per unit: ";
-    cin >> pricePerUnit;
+    
+    do
+    {
+        cout << "Enter item stock: ";
+        cin >> itemStocks;
+        if(cin.good())
+            break;
+        cin.clear();
+        string str;
+        cin>>str;
+        if(str=="quit")
+            break;
+        cout<<"\n Enter valid input for stocks(whole number)\n";
+    } while(1);
+    
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    do
+    {
+        cout << "Enter price per unit: ";
+        cin >> pricePerUnit;
+        if(cin.good())
+            break;
+        cin.clear();
+        string str;
+        cin>>str;
+        if(str=="quit")
+            break;
+        cout<<"\n Enter valid input for price per unit(float value)";
+    } while(1);
+    
     pack();
     itemFile.close();
 }
@@ -145,7 +187,7 @@ void item::accessing(){
   while (1)
   {
     menu:
-    cout << "1-Menu\t2-Take order\t3-exit\nEnter choice:";
+    cout << "\n1-Menu\t2-Take order\t3-exit\nEnter choice:";
     cin >> mainchoice;
     switch (mainchoice) //second switch(menu switch)
     {
@@ -199,6 +241,9 @@ void item::accessing(){
                         goto takeOrder;
                         break;
                     default:
+                        
+                        //od.deleteOrder(orderIdRef);
+                        od.flag=0;
                         cout << "\nOrder cancelled so modify order file and to main menu\n";
                         goto menu; //goto takeOrder;
                         break;

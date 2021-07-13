@@ -1,0 +1,11 @@
+1|Idli|2|#
+3|Fried Rice|1|#
+5|Noodles|1|#
+2|Dosa|2|#
+4|Onion Dosa |2|#
+6|Coffee|0|#
+3|Idli|4|#
+1|Noodles|5|#
+3|Pulav|2|#
+7|Noodles|1|#
+8|kurkure|5|#

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iomanip>
 #include <cstring>
+#include<limits>
 #include "Chefs.hpp"
 #include "OrderDetails.hpp"
 #include "Item.hpp"
@@ -33,10 +34,38 @@ void orderDetails :: read(){
         return;
     }
 
-    cout<<"Enter the itemId";
-    cin>>itemId;
-    cout<<"Enter the quantity";
-    cin>>quantity; 
+   do
+    {
+        cout << "Enter item id: ";
+        cin >> itemId;
+        if(cin.good())
+            break;
+        cin.clear();
+        string str;
+        cin>>str;
+        if(str=="quit")
+        break;
+        // cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout<<"\n Enter valid input for id(whole number)\n";
+    } while(1);
+    
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    do
+    {
+       cout<<"Enter the quantity";
+        cin>>quantity;  
+        if(cin.good())
+            break;
+        cin.clear();
+        string str;
+        cin>>str;
+        if(str=="quit")
+        break;
+        // cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout<<"\n Enter valid input for quantity(whole number)\n";
+    } while (1);
+    //  cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    
     int availQuantity = validate(itemId,quantity);
     if(availQuantity != 0 )
     {
@@ -81,7 +110,8 @@ void orderDetails::unpack(){
 void orderDetails::particularOrderAccessing(int currOrderId,int f){
     opener(orderFile,fileName,ios::in);
     if(!orderFile){
-        return;
+        cout<<"Exit through particular order accessing in order details\n";
+        exit(0);
     }
     // int currOrderId=orderId;
     cout<<setiosflags(ios::left);
@@ -97,7 +127,7 @@ void orderDetails::particularOrderAccessing(int currOrderId,int f){
             chefobj.itemId = itemId;
             chefobj.quantity = quantity;
             strcpy(chefobj.itemName , itemobj.itemName);
-            chefobj.pack();
+            chefobj.read();
             }
             cout<<setw(10)<<itemId<<setw(25)<<itemobj.getItemName(itemId)<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
         }
@@ -149,10 +179,13 @@ int orderDetails :: calculateTotalQuantity(int id){
 void orderDetails :: modify(int id , int item , int num){
     int pos ;
     opener(orderFile,fileName,ios::in|ios::binary|ios::out);
+    if(!orderFile){
+        cout<<"Exit through modify in order details\n";
+        exit(0);
+    }
     while(!orderFile.eof()){
         pos = orderFile.tellg();
         unpack();
-        if(orderFile){
             if(id == orderId && item == itemId){
                 orderFile.seekp(pos);
                 itemobj.modify(item,quantity-num);
@@ -160,7 +193,34 @@ void orderDetails :: modify(int id , int item , int num){
                 pack();
                 break;
             }
-        }
     }
     orderFile.close();
 }
+// void orderDetails::deleteOrder(int id){
+//     cout<<"entered delte\n";
+//     int pos,f=0 ;
+//     opener(orderFile,fileName,ios::in|ios::binary|ios::out);
+//     if(!orderFile){
+//         cout<<"Exit through delete order in order details\n";
+//         exit(0);
+//     }
+//     cout<<"file opened\n";
+//     while (!orderFile.eof())
+//     {
+//         pos=orderFile.tellg();
+//         cout<<"Position : "<<pos<<endl;
+//         unpack();
+//         if(id == orderId){
+//             f=1;
+//             cout<<"Entered if\n";
+//             orderFile.seekp(pos);
+//             quantity=0;
+//             pack();
+//         }
+//         else{
+//             if(f)
+//                 break;
+//         }
+//     }
+//     orderFile.close();
+// }

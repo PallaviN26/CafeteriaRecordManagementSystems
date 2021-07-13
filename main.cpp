@@ -16,7 +16,7 @@ int main()
 {
   int choice;
   while(1){
-    cout<<"1.Customer Service\t2.Order History\t3.Modification Of Menu\t4.Service In Progress\t5.Exit\nEnter choice: ";
+    cout<<"\n1.Customer Service\t2.Order History\t3.Modification Of Menu\t4.Service In Progress\t5.Exit\nEnter choice: ";
     cin>>choice;
     item itemobj;
     chefs chefobj;
