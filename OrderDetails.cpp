@@ -97,7 +97,7 @@ void orderDetails::particularOrderAccessing(int currOrderId,int f){
             chefobj.itemId = itemId;
             chefobj.quantity = quantity;
             strcpy(chefobj.itemName , itemobj.itemName);
-            chefobj.pack();
+            chefobj.insert(quantity);
             }
             cout<<setw(10)<<itemId<<setw(25)<<itemobj.getItemName(itemId)<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
         }
@@ -155,6 +155,7 @@ void orderDetails :: modify(int id , int item , int num){
         if(orderFile){
             if(id == orderId && item == itemId){
                 orderFile.seekp(pos);
+                cout<<"Order position is "<<pos;
                 itemobj.modify(item,quantity-num);
                 quantity = num;
                 pack();
