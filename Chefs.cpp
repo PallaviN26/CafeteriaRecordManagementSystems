@@ -140,12 +140,14 @@ void chefs :: modify(int id,int num){
         cout<<"Exit through modify chef\n";
         exit(0);
     }
-    int addr = hash(itemId);
+    int addr = hash(id);
     int bucketSize = 6;
     int noOfBuckets = 5;
     int pos = addr * (sizeof(chefs) + 4) * noOfBuckets;
     chefFile.seekg(pos, ios::beg);
     char ch = chefFile.peek();
+    cout << "Character is " << ch;
+
     if (ch != '#')
     {
         int i = 0;
@@ -153,9 +155,8 @@ void chefs :: modify(int id,int num){
         while (ch != '#' && i < bucketSize)
         {
             chefFile.getline(dummy, 10, '|');
-            int id = atoi(dummy);
-            cout<<id;
-            if (id != itemId)
+            int idItem = atoi(dummy);
+            if (id != idItem)
             {
                 pos += sizeof(chefs) + 4;
                 i++;
@@ -201,7 +202,7 @@ void chefs::accessing()
             cin >> id;
             cout<<"Enter quantity of item prepared";
             cin >> num;
-            modify(id,(-1*num));
+            modify(id,num);
             break;
         default:
             return;
