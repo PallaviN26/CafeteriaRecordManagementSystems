@@ -44,6 +44,7 @@ void chefs::insert(int extra)
         return;
     }
     int addr = hash(itemId);
+    cout<<"address: "<<addr<<endl;
     int bucketSize = 6;
     int noOfBuckets = 5;
     int pos = addr * (sizeof(chefs) + 4) * noOfBuckets;
@@ -60,7 +61,9 @@ void chefs::insert(int extra)
             cout<<id;
             if (id != itemId)
             {
+                cout<<"pos before:"<<pos<<endl;
                 pos += sizeof(chefs) + 4;
+                cout<<"pos after:"<<pos<<endl;
                 i++;
                 chefFile.seekp(pos, ios::beg);
                 ch = chefFile.peek();
@@ -86,7 +89,9 @@ void chefs::insert(int extra)
         }
     }
     else
-        pack();
+        {
+            cout<<"tellp: "<<chefFile.tellp()<<endl;
+            pack();}
 
     chefFile.close();
 }
@@ -121,15 +126,25 @@ void chefs ::display()
     opener(chefFile, fileName, ios::in);
     if (!chefFile)
     {
-        return;
+        cout<<"Exit thorugh display in chefs\n";
+        exit(0);
     }
     cout<<setiosflags(ios::left);
     cout<<setw(10)<<"Item Id"<<setw(25)<<"Item Name"<<setw(10)<<"Quantity"<<endl;
     while(1){
         if(chefFile.eof())
         break;
-        unpack();
-        cout << setw(10) << itemId << setw(25) << itemName << setw(10) << quantity << endl;
+        char ch=chefFile.peek();
+        if(ch!='#')
+        {
+            // cout<<"Before \ntellp:"<<chefFile.tellp()<<" tellg:"<<chefFile.tellg()<<" peek:"<<chefFile.peek();
+            unpack();
+            cout << setw(10) << itemId << setw(25) << itemName << setw(10) << quantity << endl;
+            // cout<<"After \ntellp:"<<chefFile.tellp()<<" tellg:"<<chefFile.tellg()<<" peek:"<<chefFile.peek();
+        }
+        else{
+            chefFile.ignore(40,'\n');
+        }
     }
     chefFile.close();
 }
@@ -146,7 +161,7 @@ void chefs :: modify(int id,int num){
     int pos = addr * (sizeof(chefs) + 4) * noOfBuckets;
     chefFile.seekg(pos, ios::beg);
     char ch = chefFile.peek();
-    cout << "Character is " << ch;
+    // cout << "Character is " << ch;
 
     if (ch != '#')
     {

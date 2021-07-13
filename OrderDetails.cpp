@@ -126,7 +126,7 @@ void orderDetails::particularOrderAccessing(int currOrderId,int f){
             if(f){
             chefobj.itemId = itemId;
             chefobj.quantity = quantity;
-            strcpy(chefobj.itemName , itemobj.itemName);
+            strcpy(chefobj.itemName , itemobj.getItemName(itemId));
             chefobj.insert(quantity);
             }
             cout<<setw(10)<<itemId<<setw(25)<<itemobj.getItemName(itemId)<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
