@@ -5,6 +5,7 @@
 #include <fstream>
 #include <math.h>
 #include "Chefs.hpp"
+#include "Item.hpp"
 
 #define fileName "chef.txt"
 using namespace std;
@@ -47,7 +48,8 @@ void chefs::insert(int extra)
     int bucketSize = 6;
     int noOfBuckets = 5;
     int pos = addr * (sizeof(chefs) + 4) * noOfBuckets;
-    chefFile.seekp(pos, ios::beg);
+    cout<<"Prasad"<<pos;
+    chefFile.seekg(pos, ios::beg);
     char ch = chefFile.peek();
     if (ch != '#')
     {
@@ -57,19 +59,25 @@ void chefs::insert(int extra)
         {
             chefFile.getline(dummy, 10, '|');
             int id = atoi(dummy);
+            cout<<id;
             if (id != itemId)
             {
                 cout<<"Byee"<<chefFile.tellp();
                 pos += sizeof(chefs) + 4;
                 i++;
                 chefFile.seekp(pos, ios::beg);
+                cout<<"Pallu"<<chefFile.tellp();
                 ch = chefFile.peek();
                 cout<<"Hello"<<chefFile.tellp();
             }
             else
             {
+                cout<<"Hi"<<chefFile.tellg();
+                chefFile.seekg(pos, ios::beg);
+                cout<<"Hi"<<chefFile.tellp();
                 unpack();
                 quantity += extra;
+                chefFile.seekp(pos, ios::beg);
                 pack();
                 chefFile.close();
                 return;
@@ -80,6 +88,8 @@ void chefs::insert(int extra)
             cout << " Bucket overflow";
             chefFile.close();
             return;
+        } else {
+            pack();
         }
     }
     else
@@ -89,7 +99,7 @@ void chefs::insert(int extra)
 }
 void chefs::insertDummy()
 {
-    opener(chefFile, fileName, ios ::in | ios ::binary | ios ::out);
+    opener(chefFile, fileName, ios ::app);
     if (!chefFile)
     {
         cout << "Exit through chef pack";
@@ -103,23 +113,6 @@ void chefs::insertDummy()
         chefFile << endl;
     }
 }
-
-// int chefs::search(int id){
-//     opener(chefTempFile,fileName,ios::in);
-//     if(!chefTempFile){
-//         cout<<"Exit through search in chef\n";
-//         exit(0);
-//     }
-//     while (!chefTempFile.eof())
-//     {
-//         unpack();
-//         if(id==itemId){
-//             return 1;
-//         }
-//     }
-//     return 0;
-//     chefTempFile.close();
-// }
 void chefs:: unpack(){
     char buffer[75],idBuf[10],quantityBuf[10];
     chefFile.getline(idBuf,10,'|');
@@ -146,14 +139,6 @@ void chefs ::display()
         cout << setw(10) << itemId << setw(25) << itemName << setw(10) << quantity << endl;
     }
     chefFile.close();
-}
-void chefs::read(){
-    opener(chefFile,fileName,ios::app);
-    if(!chefFile){
-        cout<<"Exit through chef pack";
-        exit(0);
-    }
-    pack();
 }
 void chefs :: modify(int id,int num){
     item itemObj;
