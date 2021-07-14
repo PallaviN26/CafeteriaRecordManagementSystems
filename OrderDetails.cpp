@@ -64,7 +64,11 @@ void orderDetails :: read(){
         cout<<"\n Enter valid input for quantity(whole number)\n";
     } while (1);
     //  cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    
+    if(!itemobj.search(itemId)){
+        cout<<"Item Id does not exists!\n";
+        orderFile.close();
+        return;
+    }
     int availQuantity = validate(itemId,quantity);
     if(availQuantity != 0 )
     {
@@ -73,7 +77,7 @@ void orderDetails :: read(){
         orderFile.close();
         return;
     }
-     amount=calculateAmount(itemId);
+    amount=calculateAmount(itemId);
     pack();
     itemobj.modify(itemId,quantity * (-1) );
     orderFile.close();
@@ -92,6 +96,7 @@ void orderDetails :: pack(){
     
 }
 float  orderDetails :: calculateAmount(int itemId){
+    // cout<<"getprice return:"<<itemobj.getPrice(itemId);
   return  itemobj.getPrice(itemId) * quantity;
 }
 void orderDetails::unpack(){
@@ -122,13 +127,15 @@ void orderDetails::particularOrderAccessing(int currOrderId,int f){
             break;
         
         else if(currOrderId==orderId){
-            if(f){
-            chefobj.itemId = itemId;
-            chefobj.quantity = quantity;
-            strcpy(chefobj.itemName , itemobj.getItemName(itemId));
-            chefobj.insert(quantity);
+            if(quantity>0){
+                if(f){
+                chefobj.itemId = itemId;
+                chefobj.quantity = quantity;
+                strcpy(chefobj.itemName , itemobj.getItemName(itemId));
+                chefobj.insert(quantity);
+                }
+                cout<<setw(10)<<itemId<<setw(25)<<itemobj.getItemName(itemId)<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
             }
-            cout<<setw(10)<<itemId<<setw(25)<<itemobj.getItemName(itemId)<<setw(10)<<quantity<<setw(25)<<itemobj.pricePerUnit<<setw(10)<<amount<<endl;
         }
     }
     orderFile.close();
@@ -145,7 +152,7 @@ float orderDetails :: calculateTotalAmount(int id){
         while(!orderFile.eof()){
             unpack();
             if(orderFile){
-                if(id == orderId){
+                if(id == orderId && quantity>0){
                     total = total + amount; 
                     flag = 1;
                 }
@@ -187,40 +194,49 @@ void orderDetails :: modify(int id , int item , int num){
         unpack();
             if(id == orderId && item == itemId){
                 orderFile.seekp(pos);
-                cout<<"Order position is "<<pos;
+                // cout<<"Order position is "<<pos;
                 itemobj.modify(item,quantity-num);
                 quantity = num;
-                pack();
-                break;
+                amount=calculateAmount(item);
+                pack();// orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#";
+                orderFile.close();
+                return;
             }
+    }
+    cout<<"Have not ordered this!\n";
+    orderFile.close();
+}
+void orderDetails::deleteOrder(int id){
+    // cout<<"entered delte\n";
+    int pos,f=1 ;
+    opener(orderFile,fileName,ios::in|ios::binary|ios::out);
+    if(!orderFile){
+        cout<<"Exit through delete order in order details\n";
+        exit(0);
+    }
+    // cout<<"file opened\n";
+    while (!orderFile.eof())
+    {
+        pos=orderFile.tellg();
+        cout<<"Position "<<f<<" : "<<pos<<endl;
+        f++;
+        unpack();
+        if(id == orderId){
+            // cout<<"Entered if\n";
+            orderFile.seekp(pos);
+            itemobj.modify(itemId,quantity);
+            quantity=0;
+            amount=0;
+            pack();// orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#";
+        }
     }
     orderFile.close();
 }
-// void orderDetails::deleteOrder(int id){
-//     cout<<"entered delte\n";
-//     int pos,f=0 ;
-//     opener(orderFile,fileName,ios::in|ios::binary|ios::out);
-//     if(!orderFile){
-//         cout<<"Exit through delete order in order details\n";
-//         exit(0);
-//     }
-//     cout<<"file opened\n";
-//     while (!orderFile.eof())
-//     {
-//         pos=orderFile.tellg();
-//         cout<<"Position : "<<pos<<endl;
-//         unpack();
-//         if(id == orderId){
-//             f=1;
-//             cout<<"Entered if\n";
-//             orderFile.seekp(pos);
-//             quantity=0;
-//             pack();
-//         }
-//         else{
-//             if(f)
-//                 break;
-//         }
-//     }
-//     orderFile.close();
-// }
+int orderDetails::search(int id){
+    opener(orderFile,fileName,ios::in|ios::binary|ios::out);
+    if(!orderFile){
+        cout<<"Exit through delete order in order details\n";
+        exit(0);
+    } 
+      
+}

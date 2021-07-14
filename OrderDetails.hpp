@@ -19,7 +19,7 @@ public:
   void pack() ;
   void unpack() ;
   void display() ;
-  void search();
+  int search(int id);
   void removeRecord() ;
   void particularOrderAccessing(int id,int f);
   void modify(int id,int item, int num) ;

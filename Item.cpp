@@ -92,7 +92,7 @@ void item::read()
         cout<<"\n Enter valid input for price per unit(float value)";
     } while(1);
      int addr = hash(itemId);
-    cout<<"address: "<<addr<<endl;
+    // cout<<"address: "<<addr<<endl;
     int bucketSize = 6;
     int noOfBuckets = 5;
     int pos = addr * (sizeof(item) + 6) * noOfBuckets;
@@ -117,21 +117,22 @@ void item::read()
             // cout<<id;
             if (id != itemId)
             {
-                cout<<"pos before:"<<pos<<endl;
+                // cout<<"pos before:"<<pos<<endl;
                 pos += sizeof(item) + 6;
-                cout<<"pos after:"<<pos<<endl;
+                // cout<<"pos after:"<<pos<<endl;
                 i++;
                 itemFile.seekp(pos, ios::beg);
                 ch = itemFile.peek();
             }
             else
             {
-                itemFile.seekg(pos, ios::beg);
-                int quantity = itemStocks;
-                unpack();
-                itemStocks += quantity;
-                itemFile.seekp(pos, ios::beg);
-                pack();
+                // itemFile.seekg(pos, ios::beg);
+                // int quantity = itemStocks;
+                // unpack();
+                // itemStocks += quantity;
+                // itemFile.seekp(pos, ios::beg);
+                // pack();
+                cout<<"Item ID already exists, cannot insert item. \nTry updating!\n";
                 itemFile.close();
                 return;
             }
@@ -201,26 +202,47 @@ void item::unpack()
 }
 int item::search(int id)
 {
-    //display();
     opener(itemFile, fileName, ios::in);
     if (!itemFile)
     {
-        return -1;
+        cout<<"Exit through search in item\n";
+        exit(0);
     }
-    cin.ignore();
-    int count = 0;
-    while (!itemFile.eof())
+    int pos ;
+    int addr = hash(id);
+    int bucketSize = 6;
+    int noOfBuckets = 5;
+    pos = addr * (sizeof(item) + 6) * noOfBuckets;
+    itemFile.seekg(pos, ios::beg);
+    char ch = itemFile.peek();
+    if (ch != '#')
     {
-        unpack();
-        if ((id == itemId))
+        int i = 0;
+        char dummy[10];
+        while (ch != '#' && i < bucketSize)
         {
-            return count++;
+            itemFile.getline(dummy, 10, '|');
+            int idItem = atoi(dummy);
+            if (id != idItem)
+            {
+                pos += sizeof(item) + 6;
+                i++;
+                itemFile.seekp(pos, ios::beg);
+                ch = itemFile.peek();
+            }
+            else
+            {           
+                itemFile.close();
+                return 1;
+            }
         }
-        count++;
+        if( i == bucketSize){
+            itemFile.close();
+            return 0;
+        }
     }
-    cout << "Item not found!\n";
+   itemFile.close();
     return 0;
-    itemFile.close();
 }
 void item :: modify(int id , int stocks){
    int pos ;
@@ -314,9 +336,14 @@ void item::accessing(){
                         // cout<<"Modify order";
                         cout<<"Enter details to modify\nItem Id: ";
                         cin>>modifyItemId;
+                        if(!search(modifyItemId)){
+                            cout<<"No such Item Id!\n";
+                            continue;
+                        }
                         cout<<"\nItem qauntity : ";
                         cin>>modifyQuantity;
                         od.modify(orderIdRef,modifyItemId,modifyQuantity);
+                        od.particularOrderAccessing(orderIdRef,0);
                         break;
                     case 2:
                         // cout<<"\nBil generate\n";
@@ -333,7 +360,7 @@ void item::accessing(){
                         break;
                     default:
                         
-                        //od.deleteOrder(orderIdRef);
+                        od.deleteOrder(orderIdRef);
                         od.flag=0;
                         cout << "\nOrder cancelled so modify order file and to main menu\n";
                         goto menu; //goto takeOrder;
@@ -507,6 +534,7 @@ void item ::operationsOnItem()
     int choice;
     while (1)
     {
+        operations:
         cout << "1. Add new item \t"
              << "2. Delete item \t "
              << "3. Update quantity \t"
@@ -550,19 +578,42 @@ void item ::operationsOnItem()
             cin >> price;
             int pos;
             opener(itemFile, fileName, ios::in | ios ::binary | ios ::out);
-            while (!itemFile.eof())
-            {
-                pos = itemFile.tellg();
-                unpack();
-                if (itemFile)
-                {
-                    if (id == itemId)
-                    {
-                        pricePerUnit = price;
-                        itemFile.seekp(pos);
-                        pack();
-                        break;
+            if(!itemFile){
+        cout<<"Exit through price update in item\n";
+        exit(0);
+    }
+            int addr = hash(id);
+            int bucketSize = 6;
+            int noOfBuckets = 5;
+            pos = addr * (sizeof(item) + 6) * noOfBuckets;
+            itemFile.seekg(pos, ios::beg);
+            char ch = itemFile.peek();
+            if(ch!='#'){
+                int i=0;
+                char dummy[10];
+                while(ch!='#' && i<bucketSize){
+                    itemFile.getline(dummy,10,'|');
+                    int currId=atoi(dummy);
+                    if(id!=currId){
+                        pos+=sizeof(item)+6;
+                        i++;
+                        itemFile.seekp(pos,ios::beg);
+                        ch=itemFile.peek();
                     }
+                    else{
+                        itemFile.seekg(pos,ios::beg);
+                        unpack();
+                        pricePerUnit=price;
+                        itemFile.seekp(pos,ios::beg);
+                        pack();
+                        itemFile.close();
+                        goto operations;
+                    }
+                }
+                if(i==bucketSize){
+                    cout<<"Entered wrong item id\n";
+                    itemFile.close();
+                    goto operations;
                 }
             }
             itemFile.close();
