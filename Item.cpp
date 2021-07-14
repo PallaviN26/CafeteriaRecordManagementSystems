@@ -93,8 +93,61 @@ void item::read()
             break;
         cout<<"\n Enter valid input for price per unit(float value)";
     } while(1);
-    
-    pack();
+     int addr = hash(itemId);
+    cout<<"address: "<<addr<<endl;
+    int bucketSize = 6;
+    int noOfBuckets = 5;
+    int pos = addr * (sizeof(item) + 6) * noOfBuckets;
+    for (int i = 0; i < 30; i++)
+    {
+        itemFile.seekp(i * (sizeof(item) + 4), ios::beg);
+        for (int j = 0; j < sizeof(item) + 3; j++)
+            itemFile << "#";
+        itemFile << endl;
+    }
+    itemFile.seekg(pos, ios::beg);
+    char ch = itemFile.peek();
+    if (ch != '#')
+    {
+        int i = 0;
+        char dummy[10];
+        while (ch != '#' && i < bucketSize)
+        {
+            itemFile.getline(dummy, 10, '|');
+            int id = atoi(dummy);
+            cout<<id;
+            if (id != itemId)
+            {
+                cout<<"pos before:"<<pos<<endl;
+                pos += sizeof(item) + 6;
+                cout<<"pos after:"<<pos<<endl;
+                i++;
+                itemFile.seekp(pos, ios::beg);
+                ch = itemFile.peek();
+            }
+            else
+            {
+                itemFile.seekg(pos, ios::beg);
+                int quantity = itemStocks;
+                unpack();
+                itemStocks += quantity;
+                itemFile.seekp(pos, ios::beg);
+                pack();
+                itemFile.close();
+                return;
+            }
+        }
+        if (i == bucketSize)
+        {
+            cout << " Bucket overflow";
+            itemFile.close();
+            return;
+        } else {
+            pack();
+        }
+    }
+    else
+        pack();
     itemFile.close();
 }
 
