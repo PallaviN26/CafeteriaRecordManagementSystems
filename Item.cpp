@@ -35,7 +35,7 @@ float item :: frac(float x){
 }
 void item::read()
 {
-    opener(itemFile, fileName, ios::app);
+    opener(itemFile, fileName, ios::in|ios::out|ios::binary);
     if (!itemFile)
     {
         cout<<"Exit through item read\n";
@@ -54,12 +54,10 @@ void item::read()
         cin>>str;
         if(str=="quit")
         break;
-        // cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         cout<<"\n Enter valid input for id(whole number)\n";
     } while(1);
     
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    // cin.ignore(numer);
     cout << "Enter food item name: ";
     gets(itemName);
     cout << "Enter item category: ";
@@ -98,17 +96,18 @@ void item::read()
     int bucketSize = 6;
     int noOfBuckets = 5;
     int pos = addr * (sizeof(item) + 6) * noOfBuckets;
-    for (int i = 0; i < 30; i++)
-    {
-        itemFile.seekp(i * (sizeof(item) + 4), ios::beg);
-        for (int j = 0; j < sizeof(item) + 3; j++)
-            itemFile << "#";
-        itemFile << endl;
-    }
+    // for (int i = 0; i < 30; i++)
+    // {
+    //     itemFile.seekp(i * (sizeof(item) + 6), ios::beg);
+    //     for (int j = 0; j < sizeof(item) + 5; j++)
+    //         itemFile << "#";
+    //     itemFile << endl;
+    // }
     itemFile.seekg(pos, ios::beg);
     char ch = itemFile.peek();
     if (ch != '#')
     {
+        cout<<ch;
         int i = 0;
         char dummy[10];
         while (ch != '#' && i < bucketSize)
@@ -153,7 +152,7 @@ void item::read()
 
 void item::pack()
 {
-    itemFile << itemId << "|" << itemName << "|" << itemCategory << "|" << itemStocks << "|" << pricePerUnit << "|#\n";
+    itemFile << itemId << "|" << itemName << "|" << itemCategory << "|" << itemStocks << "|" << pricePerUnit << "|";
 }
 void item::display()
 {
