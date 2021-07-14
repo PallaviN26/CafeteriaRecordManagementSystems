@@ -7,7 +7,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <typeinfo>
-
+#include <math.h>
 #include "Item.hpp"
 #include "OrderDetails.hpp"
 #include "Bill.hpp"
@@ -23,6 +23,15 @@ void item ::opener(fstream &ifile, char *filename, ios_base::openmode mode)
         cout << "File not found\n";
         return;
     }
+}
+
+int item :: hash (int id){
+    int tableSize = 6; //  number of buckets
+    float constant = 0.789213;
+    return floor(tableSize * frac(id * constant));
+}
+float item :: frac(float x){
+     return x - floor(x);
 }
 void item::read()
 {

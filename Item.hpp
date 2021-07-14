@@ -24,5 +24,7 @@ class item {
        float getPrice(int id);
        char * getItemName(int id);
        void operationsOnItem();
+       int hash(int id);
+       float frac(float x);
       };
 #endif
