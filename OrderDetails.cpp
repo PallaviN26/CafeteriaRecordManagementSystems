@@ -30,10 +30,9 @@ int  orderDetails ::  generateOrderId(){
 void orderDetails :: read(){
     opener(orderFile,fileName,ios::app);
     if(!orderFile){
-        
-        return;
+        cout<<"Exit through read in order\n";
+        exit(0);
     }
-
    do
     {
         cout << "Enter item id: ";

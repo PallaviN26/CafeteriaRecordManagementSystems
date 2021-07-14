@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include<limits>
+#include <limits>
 #include <conio.h>
 #include <iostream>
 #include <iomanip>
 #include <cstring>
 #include <fstream>
-#include <stdlib.h>
+#include <string>
 #include <typeinfo>
 #include <math.h>
 #include "Item.hpp"
@@ -107,14 +107,14 @@ void item::read()
     char ch = itemFile.peek();
     if (ch != '#')
     {
-        cout<<ch;
+        // cout<<ch;
         int i = 0;
         char dummy[10];
         while (ch != '#' && i < bucketSize)
         {
             itemFile.getline(dummy, 10, '|');
             int id = atoi(dummy);
-            cout<<id;
+            // cout<<id;
             if (id != itemId)
             {
                 cout<<"pos before:"<<pos<<endl;
@@ -159,20 +159,26 @@ void item::display()
     opener(itemFile, fileName, ios::in);
     if (!itemFile)
     {
-
-        return;
+        cout<<"Exit through display in item\n";
+        exit(0);
     }
-    char buffer[100];
     cout << setiosflags(ios::left);
     cout << setw(10) << "Item Id" << setw(25) << "Item Name" << setw(25) << "Item Category" << setw(10) << "Stock" << setw(10) << "Price" << endl;
     while (1)
     {
-        unpack();
         if (itemFile.eof())
             break;
-        else if ((itemStocks) > 0)
+        char ch=itemFile.peek();
+        if(ch!='#')
         {
-            cout << setw(10) << itemId << setw(25) << itemName << setw(25) << itemCategory << setw(10) << itemStocks << setw(10) << pricePerUnit << endl;
+            unpack();
+            if ((itemStocks) > 0)
+            {
+                cout << setw(10) << itemId << setw(25) << itemName << setw(25) << itemCategory << setw(10) << itemStocks << setw(10) << pricePerUnit << endl;
+            }
+        }
+        else{
+            itemFile.ignore(70,'\n');
         }
         // i--;
     }
@@ -364,7 +370,9 @@ int item::getQuantity(int id)
     int noOfBuckets = 5;
     int pos = addr * (sizeof(item) + 6) * noOfBuckets;
     itemFile.seekg(pos, ios::beg);
+    // cout<<"Position:"<<pos<<endl;
     char ch = itemFile.peek();
+    // cout<<"Peek:"<<ch<<endl;
     if (ch != '#')
     {
         int i = 0;
@@ -404,42 +412,95 @@ float item ::getPrice(int id)
     if (!itemFile)
     {
         // return -1;
-        cout << "Exit from getprice";
+        cout << "Exit from getprice in items";
         exit(0);
     }
-    cin.ignore();
-    float price = 0.00;
-    while (!itemFile.eof())
-    {
-        unpack();
-        //cout<<"id "<<id<<"item id"<<itemId<<endl;
-        if ((id == itemId))
+    // cin.ignore();
+    // float price = 0.00;
+    int addr=hash(id);
+    int bucketSize=6;
+    int noOfBuckets=5;
+    int pos=addr*(sizeof(item)+6)*noOfBuckets;
+    itemFile.seekg(pos,ios::beg);
+    char ch=itemFile.peek();
+    if(ch!='#'){
+        int i=0;
+        char dummy[5];
+        while (ch!='#' && i<bucketSize)
         {
-
-            price = pricePerUnit;
-            break;
+            itemFile.getline(dummy,5,'|');
+            int currId=atoi(dummy);
+            if (id!=currId)
+            {
+                pos=pos+sizeof(item)+6;
+                i++;
+                itemFile.seekp(pos,ios::beg);
+                ch=itemFile.peek();
+            }
+            else{
+                itemFile.seekg(pos,ios::beg);
+                unpack();
+                itemFile.close();
+                return pricePerUnit;
+            }
         }
+        if(i==bucketSize){
+            itemFile.close();
+            cout<<"Bucket overflown";
+            return 0.0;
+        }   
     }
+    cout<<"Wrong id\n";
     itemFile.close();
-    return price;
+    return -1;
 }
 char *item::getItemName(int id)
 {
     opener(itemFile, fileName, ios::in);
     if (!itemFile)
     {
-        cout << "Exit from getItemName\n";
+        cout << "Exit from getItemName in item\n";
         exit(0);
     }
-    while (1)
+    int addr=hash(id);
+    int bucketSize = 6;
+    int noOfBuckets = 5;
+    int pos = addr * (sizeof(item) + 6) * noOfBuckets;
+    itemFile.seekg(pos,ios::beg);
+    char ch=itemFile.peek();
+    if (ch != '#')
     {
-        unpack();
-        if (id == itemId)
+        int i = 0;
+        char dummy[10];
+        while (ch != '#' && i < bucketSize)
         {
-            itemFile.close();
-            return itemName;
+            itemFile.getline(dummy, 10, '|');
+            int idItem = atoi(dummy);
+            if (id != idItem)
+            {
+                pos += sizeof(item) + 6;
+                i++;
+                itemFile.seekp(pos, ios::beg);
+                ch = itemFile.peek();
+            }
+            else
+            {
+                itemFile.seekg(pos, ios::beg);
+                unpack();
+                itemFile.close();
+                return itemName;
+            }
         }
+        if( i == bucketSize){
+            cout<<"Bucket Overflow\n";
+            itemFile.close();
+            return "";
+        }
+        itemFile.close();
     }
+    cout << "Entered wrong id";
+    itemFile.close();
+    return "";
 }
 void item ::operationsOnItem()
 {

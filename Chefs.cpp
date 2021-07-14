@@ -146,7 +146,10 @@ void chefs ::display()
         {
             // cout<<"Before \ntellp:"<<chefFile.tellp()<<" tellg:"<<chefFile.tellg()<<" peek:"<<chefFile.peek();
             unpack();
-            cout << setw(10) << itemId << setw(25) << itemName << setw(10) << quantity << endl;
+            if(quantity>0)
+            {
+                cout << setw(10) << itemId << setw(25) << itemName << setw(10) << quantity << endl;
+            }
             // cout<<"After \ntellp:"<<chefFile.tellp()<<" tellg:"<<chefFile.tellg()<<" peek:"<<chefFile.peek();
         }
         else{
