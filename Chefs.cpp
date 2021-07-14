@@ -48,6 +48,13 @@ void chefs::insert(int extra)
     int bucketSize = 6;
     int noOfBuckets = 5;
     int pos = addr * (sizeof(chefs) + 4) * noOfBuckets;
+    //     for (int i = 0; i < 30; i++)
+    // {
+    //     chefFile.seekp(i * (sizeof(chefs) + 4), ios::beg);
+    //     for (int j = 0; j < sizeof(chefs) + 3; j++)
+    //         chefFile << "#";
+    //     chefFile << endl;
+    // }
     chefFile.seekg(pos, ios::beg);
     char ch = chefFile.peek();
     if (ch != '#')
