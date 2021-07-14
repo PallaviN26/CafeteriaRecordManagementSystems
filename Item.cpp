@@ -222,7 +222,7 @@ void item :: modify(int id , int stocks){
     int addr = hash(id);
     int bucketSize = 6;
     int noOfBuckets = 5;
-    int pos = addr * (sizeof(item) + 6) * noOfBuckets;
+     pos = addr * (sizeof(item) + 6) * noOfBuckets;
     itemFile.seekg(pos, ios::beg);
     char ch = itemFile.peek();
     if (ch != '#')
@@ -244,7 +244,7 @@ void item :: modify(int id , int stocks){
             {
                 itemFile.seekg(pos, ios::beg);
                 unpack();
-                itemStocks -= stocks;
+                itemStocks += stocks;
                 itemFile.seekp(pos, ios::beg);
                 pack();
                 itemFile.close();
@@ -384,6 +384,7 @@ int item::getQuantity(int id)
             {
                 itemFile.seekg(pos, ios::beg);
                 unpack();
+                itemFile.close();
                 return itemStocks;
             }
         }
@@ -391,8 +392,10 @@ int item::getQuantity(int id)
             itemFile.close();
             return 0;
         }
+        itemFile.close();
     }
     cout << "Entered wrong id";
+    itemFile.close();
     return -1;
 }
 float item ::getPrice(int id)
