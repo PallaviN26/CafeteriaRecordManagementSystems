@@ -219,20 +219,44 @@ int item::search(int id)
 void item :: modify(int id , int stocks){
    int pos ;
    opener(itemFile,fileName,ios::in | ios :: binary | ios :: out );
-   while(!itemFile.eof()){
-       pos = itemFile.tellg();
-       //cout<<"Position in item modify: "<<pos<<endl;
-       unpack();
-       if(itemFile){
-           if(id == itemId){
-               itemStocks += stocks;
-               itemFile.seekp(pos);
-               pack();
-               break;
-           }
-            
-       }
-   }
+    int addr = hash(id);
+    int bucketSize = 6;
+    int noOfBuckets = 5;
+    int pos = addr * (sizeof(item) + 6) * noOfBuckets;
+    itemFile.seekg(pos, ios::beg);
+    char ch = itemFile.peek();
+    if (ch != '#')
+    {
+        int i = 0;
+        char dummy[10];
+        while (ch != '#' && i < bucketSize)
+        {
+            itemFile.getline(dummy, 10, '|');
+            int idItem = atoi(dummy);
+            if (id != idItem)
+            {
+                pos += sizeof(item) + 6;
+                i++;
+                itemFile.seekp(pos, ios::beg);
+                ch = itemFile.peek();
+            }
+            else
+            {
+                itemFile.seekg(pos, ios::beg);
+                unpack();
+                itemStocks -= stocks;
+                itemFile.seekp(pos, ios::beg);
+                pack();
+                itemFile.close();
+                return;
+            }
+        }
+        if( i == bucketSize){
+            itemFile.close();
+            return;
+        }
+    }
+    cout << "Entered wrong id";
    itemFile.close();
 }
 
@@ -335,17 +359,41 @@ int item::getQuantity(int id)
         // return -1;
         exit(0);
     }
-    while (!itemFile.eof())
+    int addr = hash(id);
+    int bucketSize = 6;
+    int noOfBuckets = 5;
+    int pos = addr * (sizeof(item) + 6) * noOfBuckets;
+    itemFile.seekg(pos, ios::beg);
+    char ch = itemFile.peek();
+    if (ch != '#')
     {
-        unpack();
-        if ((id == itemId))
+        int i = 0;
+        char dummy[10];
+        while (ch != '#' && i < bucketSize)
         {
-            stocks = itemStocks;
-            break;
+            itemFile.getline(dummy, 10, '|');
+            int idItem = atoi(dummy);
+            if (id != idItem)
+            {
+                pos += sizeof(item) + 6;
+                i++;
+                itemFile.seekp(pos, ios::beg);
+                ch = itemFile.peek();
+            }
+            else
+            {
+                itemFile.seekg(pos, ios::beg);
+                unpack();
+                return itemStocks;
+            }
+        }
+        if( i == bucketSize){
+            itemFile.close();
+            return 0;
         }
     }
-    itemFile.close();
-    return stocks;
+    cout << "Entered wrong id";
+    return -1;
 }
 float item ::getPrice(int id)
 {
