@@ -218,7 +218,7 @@ void orderDetails::deleteOrder(int id){
     while (!orderFile.eof())
     {
         pos=orderFile.tellg();
-        cout<<"Position "<<f<<" : "<<pos<<endl;
+        // cout<<"Position "<<f<<" : "<<pos<<endl;
         f++;
         unpack();
         if(id == orderId){
