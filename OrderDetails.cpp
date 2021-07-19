@@ -101,7 +101,7 @@ void orderDetails :: read(){
         return;
     }
     amount=calculateAmount(itemId);
-    pack();
+    pack(0);
     itemobj.modify(itemId,quantity * (-1) );
     orderFile.close();
 }
@@ -114,9 +114,23 @@ int orderDetails :: validate(int itemId , int quantity){
     else
         return 0;   
 }
-void orderDetails :: pack(){
-    orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#\n";
-    
+void orderDetails :: pack(int flag){
+    char buffer[75];
+    char temp[10];
+    itoa(orderId,buffer,10);
+    cout<<temp;
+    strcat(buffer,"|");
+    strcat(buffer,itoa(itemId,temp,10));
+    strcat(buffer,"|");
+    strcat(buffer,itoa(quantity,temp,10));
+    strcat(buffer,"|");
+    strcat(buffer,itoa(amount,temp,10));
+    strcat(buffer,"#");
+    orderFile.fill('*');
+    if(flag == 0)
+    orderFile<<setiosflags(ios::left)<<setw(sizeof(orderDetails))<<buffer<<endl;
+    else
+    orderFile<<setiosflags(ios::left)<<setw(sizeof(orderDetails))<<buffer;
 }
 float  orderDetails :: calculateAmount(int itemId){
     // cout<<"getprice return:"<<itemobj.getPrice(itemId);
@@ -127,8 +141,8 @@ void orderDetails::unpack(){
     orderFile.getline(oidBuf,10,'|');
     orderFile.getline(iidBuf,10,'|');
     orderFile.getline(quantitybuf,10,'|');
-    orderFile.getline(amountBuf,10,'|');
-    orderFile.getline(buffer,50,'#\n');
+    orderFile.getline(amountBuf,10,'#');
+    orderFile.getline(buffer,50,'\n');
     orderId=atoi(oidBuf);
     itemId=atoi(iidBuf);
     quantity=atoi(quantitybuf);
@@ -220,7 +234,7 @@ void orderDetails :: modify(int id , int item , int num){
                 itemobj.modify(item,quantity-num);
                 quantity = num;
                 amount=calculateAmount(item);
-                pack();// orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#";
+                pack(1);// orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#";
                 orderFile.close();
                 return;
             }
@@ -229,28 +243,24 @@ void orderDetails :: modify(int id , int item , int num){
     orderFile.close();
 }
 void orderDetails::deleteOrder(int id){
-    // cout<<"entered delte\n";
-    int pos,f=1 ;
+    int pos , f = 0;
     opener(orderFile,fileName,ios::in|ios::binary|ios::out);
     if(!orderFile){
         cout<<"Exit through delete order in order details\n";
         exit(0);
     }
-    // cout<<"file opened\n";
     while (!orderFile.eof())
-    {   
+    { 
         pos=orderFile.tellg();
         cout<<"Position"<<pos<<"\n";
-        f++;
         unpack();
-        if(id == orderId){
-            // cout<<"Entered if\n";
-            orderFile.seekp(pos);
+        if(id == orderId) {
+            f++;
+            orderFile.seekp(pos,ios::beg);
             itemobj.modify(itemId,quantity);
             quantity=0;
             amount=0;
-            orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount;
-            cout << orderFile.tellp();
+            pack(1);
         }
     }
     orderFile.close();

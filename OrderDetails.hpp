@@ -16,7 +16,7 @@ public:
   orderDetails(int f);
   void opener(fstream &ifile,char *filename,ios_base::openmode mode);
   void read();
-  void pack() ;
+  void pack(int flag) ;
   void unpack() ;
   void display() ;
   int search(int id);
