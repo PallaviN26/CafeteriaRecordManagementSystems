@@ -9,7 +9,7 @@ class chefs {
    char itemName[25];
    int quantity;
    public:
-        void opener(fstream &ifile,char *fileName,ios_base::openmode mode);
+      void opener(fstream &ifile,char *fileName,ios_base::openmode mode);
        void read() ;
        void pack() ;
        void unpack() ;

@@ -25,7 +25,30 @@ orderDetails::orderDetails(int f):flag(f){}
 
 int  orderDetails ::  generateOrderId(){
     srand(time(0));
-    return rand() % 900;
+    int id = rand() % 900;
+    if(validateOrderId(id) == 0)
+        return generateOrderId();
+    else
+        return id;
+}
+int orderDetails :: validateOrderId(int id ){
+    opener(orderFile,fileName,ios::app);
+    if(!orderFile){
+        cout<<"Exit through read in order\n";
+        exit(0);
+    }
+    while(!orderFile.eof()){
+            unpack();
+            if(orderFile){
+                if(id == orderId){
+                    orderFile.close();
+                    return 0;
+                }
+            }
+        }
+        orderFile.close();
+        return 1;
+
 }
 void orderDetails :: read(){
     opener(orderFile,fileName,ios::app);
@@ -163,7 +186,6 @@ float orderDetails :: calculateTotalAmount(int id){
         orderFile.close();
         return total;
 }
-
 int orderDetails :: calculateTotalQuantity(int id){
         opener(orderFile,fileName,ios::in);
         int total = 0;
@@ -216,9 +238,9 @@ void orderDetails::deleteOrder(int id){
     }
     // cout<<"file opened\n";
     while (!orderFile.eof())
-    {
+    {   
         pos=orderFile.tellg();
-        // cout<<"Position "<<f<<" : "<<pos<<endl;
+        cout<<"Position"<<pos<<"\n";
         f++;
         unpack();
         if(id == orderId){
@@ -227,7 +249,8 @@ void orderDetails::deleteOrder(int id){
             itemobj.modify(itemId,quantity);
             quantity=0;
             amount=0;
-            pack();// orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#";
+            orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount;
+            cout << orderFile.tellp();
         }
     }
     orderFile.close();

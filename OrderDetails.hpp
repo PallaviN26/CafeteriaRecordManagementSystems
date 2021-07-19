@@ -30,5 +30,6 @@ public:
   float calculateTotalAmount(int id);
   int calculateTotalQuantity(int id);
   void deleteOrder(int id);
+  int validateOrderId(int id);
 };
 #endif
