@@ -8,7 +8,7 @@
 #include "OrderDetails.hpp"
 #include "Item.hpp"
 using namespace std;
-
+int count = 0 ; 
 item itemobj;
 chefs chefobj;
 fstream orderFile;
@@ -102,6 +102,7 @@ void orderDetails :: read(){
     }
     amount=calculateAmount(itemId);
     pack(0);
+    count++;
     itemobj.modify(itemId,quantity * (-1) );
     orderFile.close();
 }
@@ -128,9 +129,9 @@ void orderDetails :: pack(int flag){
     strcat(buffer,"#");
     orderFile.fill('*');
     if(flag == 0)
-    orderFile<<setiosflags(ios::left)<<setw(sizeof(orderDetails))<<buffer<<endl;
+        orderFile<<setiosflags(ios::left)<<setw(sizeof(orderDetails) +4)<<buffer<<endl;
     else
-    orderFile<<setiosflags(ios::left)<<setw(sizeof(orderDetails))<<buffer;
+        orderFile<<setiosflags(ios::left)<<setw(sizeof(orderDetails)+ 4)<<buffer;
 }
 float  orderDetails :: calculateAmount(int itemId){
     // cout<<"getprice return:"<<itemobj.getPrice(itemId);
@@ -230,11 +231,10 @@ void orderDetails :: modify(int id , int item , int num){
         unpack();
             if(id == orderId && item == itemId){
                 orderFile.seekp(pos);
-                // cout<<"Order position is "<<pos;
                 itemobj.modify(item,quantity-num);
                 quantity = num;
                 amount=calculateAmount(item);
-                pack(1);// orderFile<<orderId<<"|"<<itemId<<"|"<<quantity<<"|"<<amount<<"|#";
+                pack(1);
                 orderFile.close();
                 return;
             }
@@ -243,33 +243,27 @@ void orderDetails :: modify(int id , int item , int num){
     orderFile.close();
 }
 void orderDetails::deleteOrder(int id){
-    int pos , f = 0;
-    opener(orderFile,fileName,ios::in|ios::binary|ios::out);
+    cout<<"Size"<<sizeof(orderDetails);
+    int f = 0;
+     opener(orderFile,fileName,ios::in|ios::binary|ios::out);
     if(!orderFile){
         cout<<"Exit through delete order in order details\n";
         exit(0);
     }
-    while (!orderFile.eof())
-    { 
-        pos=orderFile.tellg();
-        cout<<"Position"<<pos<<"\n";
+    int items[10];
+    int i = 0 ;
+    while(!orderFile.eof()){
         unpack();
-        if(id == orderId) {
-            f++;
-            orderFile.seekp(pos,ios::beg);
-            itemobj.modify(itemId,quantity);
-            quantity=0;
-            amount=0;
-            pack(1);
+        if(id == orderId){
+            items[i] = itemId;
+            i++;
         }
     }
+    f = i;
     orderFile.close();
-}
-int orderDetails::search(int id){
-    opener(orderFile,fileName,ios::in|ios::binary|ios::out);
-    if(!orderFile){
-        cout<<"Exit through delete order in order details\n";
-        exit(0);
-    } 
-      
+    for(i = 0 ; i < f;i++){
+        modify(id,items[i],0);
+    }
+
+    
 }
