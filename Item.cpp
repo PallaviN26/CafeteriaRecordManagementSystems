@@ -348,9 +348,7 @@ void item::accessing(){
                     case 2:
                         // cout<<"\nBil generate\n";
                         b.read(orderIdRef);
-                        cout<<orderIdRef<<endl;//for bill 
                         od.particularOrderAccessing(orderIdRef,1);
-                        // cout<<"Total Qauntity : "<<od.calculateTotalQuantity(orderIdRef);
                         cout<<"Total Amount : "<<od.calculateTotalAmount(orderIdRef)<<endl;
                         od.flag=0;
                         goto menu;

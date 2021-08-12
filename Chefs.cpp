@@ -44,17 +44,9 @@ void chefs::insert(int extra)
         return;
     }
     int addr = hash(itemId);
-    //cout<<"address: "<<addr<<endl;
     int bucketSize = 6;
     int noOfBuckets = 5;
     int pos = addr * (sizeof(chefs) + 4) * noOfBuckets;
-    // for (int i = 0; i < 30; i++)
-    // {
-    //     chefFile.seekp(i * (sizeof(chefs) + 4), ios::beg);
-    //     for (int j = 0; j < sizeof(chefs) + 3; j++)
-    //         chefFile << "#";
-    //     chefFile << endl;
-    // }
     chefFile.seekg(pos, ios::beg);
     char ch = chefFile.peek();
     if (ch != '#')
@@ -65,12 +57,9 @@ void chefs::insert(int extra)
         {
             chefFile.getline(dummy, 10, '|');
             int id = atoi(dummy);
-            // cout<<id;
             if (id != itemId)
             {
-                // cout<<"pos before:"<<pos<<endl;
                 pos += sizeof(chefs) + 4;
-                // cout<<"pos after:"<<pos<<endl;
                 i++;
                 chefFile.seekp(pos, ios::beg);
                 ch = chefFile.peek();
@@ -97,7 +86,6 @@ void chefs::insert(int extra)
     }
     else
         {
-            cout<<"tellp: "<<chefFile.tellp()<<endl;
             pack();}
 
     chefFile.close();

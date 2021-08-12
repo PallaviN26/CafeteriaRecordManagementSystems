@@ -45,8 +45,6 @@ void Bill :: read(int id){
     strcat(billingDate,to_string(ltm->tm_mon+1).c_str());
     strcat(billingDate,"-");
     strcat(billingDate,to_string(ltm->tm_mday).c_str());
-    cout<<"Total amount printing in read: ";
-    cout<<tempAmount;
     totalAmount=tempAmount;
     cout<<"Enter the payment Method\n";
     cout<<"1. Cash \t"<<"2. Card\t"<<"3.UPI\nEnter method: ";
@@ -68,7 +66,6 @@ void Bill :: read(int id){
     pack();
     billFile.close();
 }
-
 void Bill::pack(){
     billFile<<orderId<<"|"<<totalQuantity<<"|"<<totalAmount<<"|"<<method<<"|"<<billingDate<<"|"<<billingTime<<"|#\n";
 }
@@ -92,7 +89,6 @@ void Bill::displayAll(){
     }
     billFile.close();
 }
-
 void Bill::displayToday(){
     opener(billFile,fileName,ios::in);
     if(!billFile){
@@ -124,7 +120,6 @@ void Bill::displayToday(){
     }
     billFile.close();
 }
-
 void Bill::unpack(){
     char buffer[100],idBuf[10],quantityBuf[10],amountBuf[10];
     billFile.getline(idBuf,10,'|');
@@ -138,7 +133,6 @@ void Bill::unpack(){
     totalQuantity=atoi(quantityBuf);
     billFile.getline(buffer,100,'#\n');
 }
-
 char * Bill::getMethod(int id){
     opener(billFile,fileName,ios::in);
     if(!billFile){
@@ -153,8 +147,6 @@ char * Bill::getMethod(int id){
         }
     }
 }
-
-
 void Bill::accessing(){
   int n;
   while (1)
